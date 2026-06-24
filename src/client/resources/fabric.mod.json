@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "jsmmm",
+  "version": "1.0.0",
+  "environment": "client",
+  "mixins": [
+    {
+      "config": "jsmmm.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": "\u003e\u003d0.19.3",
+    "minecraft": "\u003e\u003d26.1.2",
+    "java": "\u003e\u003d25",
+    "fabric-api": "*"
+  },
+  "name": "JUST SHOW ME MY MAP!",
+  "description": "Shows your map while rowing a boat. That\u0027s it.",
+  "authors": [
+    {
+      "name": "Abelpro678",
+      "contact": {
+        "homepage": "https://github.com/Abelkrijgtalles",
+        "modrinth": "https://modrinth.com/user/Abelpro678"
+      }
+    }
+  ],
+  "license": "GPL-3.0-or-later",
+  "icon": "assets/jsmmm/icon.png"
+}
