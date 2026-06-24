@@ -36,9 +36,6 @@ dependencies {
 	minecraft("com.mojang:minecraft:${minecraft_version}")
 	
 	implementation("net.fabricmc:fabric-loader:${loader_version}")
-
-	// Fabric API. This is technically optional, but you probably want it anyway.
-	implementation("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
 	
 }
 
@@ -89,7 +86,6 @@ tasks.register("generateModJson", FabricModJsonV1Task::class) {
 		depends("fabricloader", ">=$loader_version")
 		depends("minecraft", ">=$minecraft_version")
 		depends("java", ">=25")
-		depends("fabric-api", "*")
 	}
 }
 
