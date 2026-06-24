@@ -75,11 +75,9 @@ tasks.register("generateModJson", FabricModJsonV1Task::class) {
 		contactInformation.put("sources", "https://github.com/Abelkrijgtalles/JSMMM")
 		contactInformation.put("issues", "https://github.com/Abelkrijgtalles/JSMMM/issues")
 		contactInformation.put("modrinth", "https://modrinth.com/project/jsmmm")
-		contactInformation.put("curseforge", "")
 		author("Abelpro678") {
 			contactInformation.put("homepage", "https://github.com/Abelkrijgtalles")
 			contactInformation.put("modrinth", "https://modrinth.com/user/Abelpro678")
-			contactInformation.put("curseforge", "https://www.curseforge.com/members/abelpro678")
 		}
 		// Add contributors once I have them
 		licenses.add("GPL-3.0-or-later")
