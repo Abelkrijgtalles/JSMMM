@@ -11,6 +11,3 @@ Here's the comparison with a map:
 And here it is with any other item (in this case bread)
 
 ![Comparison with bread](images/Comparison%20bread.jpg)
-
-## Icon
-![Icon](src/client/resources/assets/jsmmm/icon.png)
