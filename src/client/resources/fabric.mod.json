@@ -11,7 +11,7 @@
   ],
   "depends": {
     "fabricloader": "\u003e\u003d0.19.3",
-    "minecraft": "\u003e\u003d26.1.2",
+    "minecraft": "\u003e\u003d26.2",
     "java": "\u003e\u003d25",
     "fabric-api": "*"
   },
@@ -22,10 +22,18 @@
       "name": "Abelpro678",
       "contact": {
         "homepage": "https://github.com/Abelkrijgtalles",
-        "modrinth": "https://modrinth.com/user/Abelpro678"
+        "modrinth": "https://modrinth.com/user/Abelpro678",
+        "curseforge": "https://www.curseforge.com/members/abelpro678"
       }
     }
   ],
+  "contact": {
+    "homepage": "https://github.com/Abelkrijgtalles/JSMMM",
+    "sources": "https://github.com/Abelkrijgtalles/JSMMM",
+    "issues": "https://github.com/Abelkrijgtalles/JSMMM/issues",
+    "modrinth": "",
+    "curseforge": ""
+  },
   "license": "GPL-3.0-or-later",
   "icon": "assets/jsmmm/icon.png"
 }

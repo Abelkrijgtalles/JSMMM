@@ -71,9 +71,15 @@ tasks.register("generateModJson", FabricModJsonV1Task::class) {
 		version = mod_version
 		name = "JUST SHOW ME MY MAP!"
 		description = "Shows your map while rowing a boat. That's it."
+		contactInformation.put("homepage", "https://github.com/Abelkrijgtalles/JSMMM")
+		contactInformation.put("sources", "https://github.com/Abelkrijgtalles/JSMMM")
+		contactInformation.put("issues", "https://github.com/Abelkrijgtalles/JSMMM/issues")
+		contactInformation.put("modrinth", "")
+		contactInformation.put("curseforge", "")
 		author("Abelpro678") {
 			contactInformation.put("homepage", "https://github.com/Abelkrijgtalles")
 			contactInformation.put("modrinth", "https://modrinth.com/user/Abelpro678")
+			contactInformation.put("curseforge", "https://www.curseforge.com/members/abelpro678")
 		}
 		// Add contributors once I have them
 		licenses.add("GPL-3.0-or-later")
