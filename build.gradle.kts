@@ -7,7 +7,6 @@ plugins {
 
 val minecraft_version: String by project
 val loader_version: String by project
-val fabric_api_version: String by project
 
 val mod_version: String by project
 val maven_group: String by project
