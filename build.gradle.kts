@@ -84,7 +84,6 @@ tasks.register("generateModJson", FabricModJsonV1Task::class) {
 			environment = "client"
 		}
 		depends("fabricloader", ">=$loader_version")
-		depends("minecraft", ">=$minecraft_version")
 		depends("java", ">=25")
 	}
 }
