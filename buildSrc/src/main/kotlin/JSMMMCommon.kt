@@ -33,7 +33,7 @@ fun Project.configureJsmmmCommon() {
         options.release.set(javaVersion.toInt())
         options.compilerArgs.addAll(listOf(
             "-Xplugin:Manifold",
-            "-Amanifold.preprocessor.symbols=$symbol"
+            "-A$symbol"
         ))
     }
 
