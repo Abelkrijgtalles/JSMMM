@@ -24,6 +24,9 @@ public abstract class LocalPlayerMixin {
 		if (((LivingEntity) (Object) this).getItemInHand(getUsedItemHand()).getItem() instanceof MapItem) {
 			this.handsBusy = false;
 		}
+		#if MC_1_21_4
+		this.handsBusy = true;
+		#endif
 	}
 
 }
