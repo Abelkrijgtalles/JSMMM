@@ -1,4 +1,3 @@
-// buildSrc/src/main/kotlin/JSMMMCommon.kt
 import net.fabricmc.loom.task.FabricModJsonV1Task
 import net.fabricmc.loom.task.RemapJarTask
 import org.gradle.api.JavaVersion

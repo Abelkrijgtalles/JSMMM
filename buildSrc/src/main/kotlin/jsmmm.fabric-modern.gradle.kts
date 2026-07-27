@@ -1,4 +1,3 @@
-// buildSrc/src/main/kotlin/jsmmm.fabric-modern.gradle.kts
 plugins { id("net.fabricmc.fabric-loom") }
 
 val mcVersion: String by project
