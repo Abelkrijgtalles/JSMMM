@@ -1,0 +1,25 @@
+license = "GPL-3.0-or-later"
+issueTrackerURL = "https://github.com/Abelkrijgtalles/JSMMM/issues"
+
+[[mods]]
+modId = "jsmmm"
+version = "${mod_version}"
+displayName = "JUST SHOW ME MY MAP!"
+updateJSONURL = "https://api.modrinth.com/updates/jsmmm/forge_updates.json?neoforge=only"
+displayURL = "https://github.com/Abelkrijgtalles/JSMMM"
+logoFile = "assets/jsmmm/icon.png"
+authors = "Abelpro678"
+description = "Shows your map while rowing a boat. That's it."
+
+[features.jsmmm]
+javaVersion = "[${java_version},)"
+
+[[mixins]]
+config = "jsmmm.client.mixins.json"
+
+[[dependencies.jsmmm]]
+modId = "neoforge"
+type = "required"
+versionRange = "[${neo_version},)"
+ordering = "NONE"
+side = "CLIENT"
