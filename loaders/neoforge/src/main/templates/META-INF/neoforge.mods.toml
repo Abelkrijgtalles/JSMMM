@@ -1,3 +1,6 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+
 license = "GPL-3.0-or-later"
 issueTrackerURL = "https://github.com/Abelkrijgtalles/JSMMM/issues"
 

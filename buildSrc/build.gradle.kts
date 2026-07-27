@@ -4,6 +4,7 @@ plugins {
 
 repositories {
     maven("https://maven.fabricmc.net/") { name = "Fabric" }
+    maven("https://maven.neoforged.net/releases") { name = "NeoForge" }
     mavenCentral()
     gradlePluginPortal()
 }
@@ -11,5 +12,5 @@ repositories {
 dependencies {
     implementation("net.fabricmc:fabric-loom:1.17-SNAPSHOT")
     implementation("net.fabricmc.fabric-loom-remap:net.fabricmc.fabric-loom-remap.gradle.plugin:1.17.16")
-    implementation("net.neoforged.moddev:net.neoforged.moddev.gradle.plugin:2.0.142")
+    implementation("net.neoforged.gradle.userdev:net.neoforged.gradle.userdev.gradle.plugin:7.1.38")
 }

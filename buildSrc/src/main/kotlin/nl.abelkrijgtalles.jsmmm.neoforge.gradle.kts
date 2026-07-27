@@ -1,8 +1,5 @@
-import gradle.kotlin.dsl.accessors._17bdc5d29cfe0396261d0826e9220038.processResources
-import gradle.kotlin.dsl.accessors._17bdc5d29cfe0396261d0826e9220038.sourceSets
-
 plugins {
-    id("net.neoforged.moddev")
+    id("net.neoforged.gradle.userdev")
 }
 
 val neoForgeVersion: String by project
@@ -13,16 +10,18 @@ val supportedNeoForgeVersions: String by project
 group = rootProject.property("maven_group") as String
 version = rootProject.property("mod_version") as String
 
-val generateModMetadata = tasks.register<ProcessResources>("generateModMetadata") {
-    var replaceProperties = mapOf(
+tasks.withType<ProcessResources>().configureEach {
+    dependsOn(tasks.compileJava)
+    val replaceProperties = mapOf(
         "mod_version" to version,
         "java_version" to javaVersion,
-        "supported_neo_versions" to neoForgeVersion,
+        "supported_neo_versions" to supportedNeoForgeVersions,
     )
 
     inputs.properties(replaceProperties)
-    expand(replaceProperties)
-    from(rootProject.file("loaders/neoforge/src/main/templates"))
+    from(rootProject.file("loaders/neoforge/src/main/templates")) {
+        expand(replaceProperties)
+    }
     into("build/generated/sources/modMetadata")
 
     filesMatching("jsmmm.client.mixins.json") {
@@ -39,30 +38,19 @@ sourceSets["main"].resources.srcDirs(
     rootProject.file("common/src/client/resources"),
     rootProject.file("loaders/neoforge/src/client/resources"),
     "src/generated/resources",
-    generateModMetadata,
+    "build/generated/sources",
 )
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
 
-neoForge {
-    version = neoForgeVersion
-
-    mods {
-        register("jsmmm") {
-            sourceSets["main"]
-        }
-    }
-
-    ideSyncTask(generateModMetadata)
-}
-
-tasks.withType<JavaCompile>().configureEach {
+tasks.named<JavaCompile>("compileJava") {
     options.release.set(javaVersion.toInt())
     options.compilerArgs.addAll(listOf("-Xplugin:Manifold", "-A$symbol"))
 }
 
 dependencies {
     annotationProcessor("systems.manifold:manifold-preprocessor:2026.1.8")
+    implementation("net.neoforged:neoforge:$neoForgeVersion")
 }
 
 tasks.named<Jar>("jar") {

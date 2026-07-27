@@ -9,7 +9,7 @@ loom {
     mods { register("jsmmm") { sourceSet(sourceSets["client"]) } }
 }
 
-configureJsmmmFabricTarget("0.19.3", true)
+configureJSMMMFabricTarget("0.19.3", true)
 
 dependencies {
     mappings(loom.officialMojangMappings())

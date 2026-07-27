@@ -14,7 +14,7 @@ fun mixinCompatibilityLevelFor(javaVersion: String): String {
     return "JAVA_$level"
 }
 
-fun Project.configureJsmmmFabricTarget(loaderVersion: String, split: Boolean) {
+fun Project.configureJSMMMFabricTarget(loaderVersion: String, split: Boolean) {
     val mcVersion: String by project
     val javaVersion: String by project
     val symbol: String by project
