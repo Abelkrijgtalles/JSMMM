@@ -17,5 +17,5 @@ dependencies {
 
 tasks.named<RemapJarTask>("remapJar") {
     archiveBaseName.set(rootProject.name)
-    archiveClassifier.set(project.name)
+    archiveClassifier.set("${parent?.name}-${project.name}")
 }

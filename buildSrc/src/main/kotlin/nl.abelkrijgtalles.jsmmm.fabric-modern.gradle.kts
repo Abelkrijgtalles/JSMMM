@@ -15,5 +15,5 @@ dependencies {
 
 tasks.named<Jar>("jar") {
     archiveBaseName.set(rootProject.name)
-    archiveClassifier.set(project.name)
+    archiveClassifier.set("${parent?.name}-${project.name}")
 }

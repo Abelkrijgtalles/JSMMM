@@ -1,1 +1,1 @@
-plugins { id("jsmmm.fabric-modern") }
+plugins { id("nl.abelkrijgtalles.jsmmm.fabric-modern") }

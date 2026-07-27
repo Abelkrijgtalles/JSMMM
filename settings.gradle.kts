@@ -5,8 +5,6 @@ pluginManagement {
         gradlePluginPortal()
     }
     plugins {
-        id("net.fabricmc.fabric-loom") version "1.17-SNAPSHOT"
-        id("net.fabricmc.fabric-loom-remap") version "1.17.16"
     }
 }
 

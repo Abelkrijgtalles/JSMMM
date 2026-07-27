@@ -56,6 +56,7 @@ fun Project.configureJsmmmFabricTarget(loaderVersion: String, split: Boolean) {
         from(rootProject.file("LICENSE")) { rename { "${it}_JSMMM" } }
     }
 
+    // Also edit this in neoforge.mods.toml
     val modVersion = rootProject.property("mod_version") as String
     tasks.register("generateModJson", FabricModJsonV1Task::class) {
         outputFile = generatedResources.get().file("fabric.mod.json").asFile

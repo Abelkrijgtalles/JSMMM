@@ -1,1 +1,1 @@
-plugins { id("jsmmm.fabric-obfuscated-split") }
+plugins { id("nl.abelkrijgtalles.jsmmm.fabric-obfuscated-split") }
