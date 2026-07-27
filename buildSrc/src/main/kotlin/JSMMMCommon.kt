@@ -10,22 +10,22 @@ import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.language.jvm.tasks.ProcessResources
 import org.gradle.kotlin.dsl.*
 
-fun Project.configureJsmmmFabricTarget(loaderName: String) {
+fun Project.configureJsmmmFabricTarget(loaderVersion: String) {
     val mcVersion: String by project
-    val loaderVersion: String by project
     val javaVersion: String by project
     val symbol: String by project
+    val supportedMcVersions: String by project
 
     val generatedResources = layout.buildDirectory.dir("generated/resources")
     val sourceSets = extensions.getByType<SourceSetContainer>()
 
     sourceSets["client"].java.srcDirs(
         rootProject.file("common/src/client/java"),
-        rootProject.file("loaders/$loaderName/src/client/java"),
+        rootProject.file("loaders/fabric/src/client/java"),
     )
     sourceSets["client"].resources.srcDirs(
         rootProject.file("common/src/client/resources"),
-        rootProject.file("loaders/$loaderName/src/client/resources"),
+        rootProject.file("loaders/fabric/src/client/resources"),
         generatedResources,
     )
 
@@ -48,21 +48,35 @@ fun Project.configureJsmmmFabricTarget(loaderName: String) {
     dependencies.add("minecraft", "com.mojang:minecraft:$mcVersion")   // <- eager now, fixes the bug
 
     tasks.named<Jar>("jar") {
-        from(rootProject.file("LICENSE")) { rename { "${it}_${project.name}" } }
+        from(rootProject.file("LICENSE")) { rename { "${it}_JSMMM" } }
     }
 
     val modVersion = rootProject.property("mod_version") as String
     tasks.register("generateModJson", FabricModJsonV1Task::class) {
         outputFile = generatedResources.get().file("fabric.mod.json").asFile
         json {
-            modId = "jsmmm"
+            modId = rootProject.name
             version = modVersion
             name = "JUST SHOW ME MY MAP!"
             description = "Shows your map while rowing a boat. That's it."
             contactInformation.put("homepage", "https://github.com/Abelkrijgtalles/JSMMM")
+            contactInformation.put("sources", "https://github.com/Abelkrijgtalles/JSMMM")
+            contactInformation.put("issues", "https://github.com/Abelkrijgtalles/JSMMM/issues")
+            contactInformation.put("modrinth", "https://modrinth.com/project/jsmmm")
+            author("Abelpro678") {
+                contactInformation.put("homepage", "https://github.com/Abelkrijgtalles")
+                contactInformation.put("modrinth", "https://modrinth.com/user/Abelpro678")
+            }
+            // Add contributors once I have them
+            licenses.add("GPL-3.0-or-later")
+            icon("assets/jsmmm/icon.png")
+            environment = "client"
+            mixin("jsmmm.client.mixins.json") {
+                environment = "client"
+            }
             depends("fabricloader", ">=$loaderVersion")
             depends("java", ">=$javaVersion")
-            depends("minecraft", "=$mcVersion")
+            depends("minecraft", supportedMcVersions)
         }
     }
 

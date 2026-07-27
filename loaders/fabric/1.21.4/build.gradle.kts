@@ -2,6 +2,6 @@
 plugins { id("jsmmm.fabric-obfuscated") }
 
 extra["mcVersion"] = "1.21.4"
-extra["loaderVersion"] = "0.16.14"
 extra["javaVersion"] = "21"
 extra["symbol"] = "MC_1_21_4"
+extra["supportedMcVersions"] = ">=1.21.4"
