@@ -1,0 +1,1 @@
+plugins { id("jsmmm.fabric-obfuscated-merged") }

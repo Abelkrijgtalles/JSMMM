@@ -9,7 +9,12 @@ import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.language.jvm.tasks.ProcessResources
 import org.gradle.kotlin.dsl.*
 
-fun Project.configureJsmmmFabricTarget(loaderVersion: String) {
+fun mixinCompatibilityLevelFor(javaVersion: String): String {
+    val level = javaVersion.toInt()
+    return "JAVA_$level"
+}
+
+fun Project.configureJsmmmFabricTarget(loaderVersion: String, split: Boolean) {
     val mcVersion: String by project
     val javaVersion: String by project
     val symbol: String by project
@@ -17,12 +22,13 @@ fun Project.configureJsmmmFabricTarget(loaderVersion: String) {
 
     val generatedResources = layout.buildDirectory.dir("generated/resources")
     val sourceSets = extensions.getByType<SourceSetContainer>()
+    val targetSourceSet = if (split) "client" else "main"
 
-    sourceSets["client"].java.srcDirs(
+    sourceSets[targetSourceSet].java.srcDirs(
         rootProject.file("common/src/client/java"),
         rootProject.file("loaders/fabric/src/client/java"),
     )
-    sourceSets["client"].resources.srcDirs(
+    sourceSets[targetSourceSet].resources.srcDirs(
         rootProject.file("common/src/client/resources"),
         rootProject.file("loaders/fabric/src/client/resources"),
         generatedResources,
@@ -82,4 +88,14 @@ fun Project.configureJsmmmFabricTarget(loaderVersion: String) {
     tasks.withType<ProcessResources>().configureEach { dependsOn("generateModJson") }
     tasks.withType<Jar>().configureEach { dependsOn("generateModJson") }
     tasks.withType<RemapJarTask>().configureEach { dependsOn("generateModJson") }
+
+    val processResourcesTaskName =
+        if (targetSourceSet == "main") "processResources"
+        else "process${targetSourceSet.replaceFirstChar(Char::uppercase)}Resources"
+
+    tasks.named<ProcessResources>(processResourcesTaskName) {
+        filesMatching("jsmmm.client.mixins.json") {
+            expand("mixinCompatibilityLevel" to mixinCompatibilityLevelFor(javaVersion))
+        }
+    }
 }

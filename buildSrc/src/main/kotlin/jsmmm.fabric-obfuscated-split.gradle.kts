@@ -9,7 +9,7 @@ loom {
     mods { register("jsmmm") { sourceSet(sourceSets["client"]) } }
 }
 
-configureJsmmmFabricTarget("0.19.3")
+configureJsmmmFabricTarget("0.19.3", true)
 
 dependencies {
     mappings(loom.officialMojangMappings())
@@ -17,5 +17,6 @@ dependencies {
 }
 
 tasks.named<RemapJarTask>("remapJar") {
+    archiveBaseName.set(rootProject.name)
     archiveClassifier.set(mcVersion)
 }

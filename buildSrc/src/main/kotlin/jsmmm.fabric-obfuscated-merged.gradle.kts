@@ -3,17 +3,15 @@ import net.fabricmc.loom.task.RemapJarTask
 plugins { id("net.fabricmc.fabric-loom-remap") }
 
 val mcVersion: String by project
-val yarnVersion: String by project
 
 loom {
-    splitEnvironmentSourceSets()
-    mods { register("jsmmm") { sourceSet(sourceSets["client"]) } }
+    mods { register("jsmmm") { sourceSet(sourceSets["main"]) } }
 }
 
-configureJsmmmFabricTarget("0.19.3", true)
+configureJsmmmFabricTarget("0.19.3", false)
 
 dependencies {
-    mappings("net.fabricmc.yarn:$yarnVersion")
+    mappings(loom.officialMojangMappings())
     modImplementation("net.fabricmc:fabric-loader:0.19.3")
 }
 
