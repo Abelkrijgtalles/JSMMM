@@ -8,6 +8,7 @@ plugins {
 val neoForgeVersion: String by project
 val javaVersion: String by project
 val symbol: String by project
+val supportedNeoForgeVersions: String by project
 
 group = rootProject.property("maven_group") as String
 version = rootProject.property("mod_version") as String
@@ -16,7 +17,7 @@ val generateModMetadata = tasks.register<ProcessResources>("generateModMetadata"
     var replaceProperties = mapOf(
         "mod_version" to version,
         "java_version" to javaVersion,
-        "neo_version" to neoForgeVersion,
+        "supported_neo_versions" to neoForgeVersion,
     )
 
     inputs.properties(replaceProperties)
