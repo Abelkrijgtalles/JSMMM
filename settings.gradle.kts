@@ -12,8 +12,15 @@ pluginManagement {
 
 rootProject.name = "jsmmm"
 
-java.util.Properties().apply { load(file("versions.properties").inputStream()) }
-    .forEach { (id, _) ->
-        include(":versions:$id")
-        project(":versions:$id").projectDir = file("versions/$id")
+file("loaders").listFiles { f -> f.isDirectory }?.forEach { loaderDir ->
+    val loaderName = loaderDir.name
+    loaderDir.listFiles { f ->
+        f.isDirectory && f.name != "src" && f.resolve("build.gradle.kts").exists()
+    }?.forEach { versionDir ->
+        val path = ":loaders:$loaderName:${versionDir.name}"
+        include(path)
+        project(path).projectDir = versionDir
     }
+}
+
+include("common")

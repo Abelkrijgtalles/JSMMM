@@ -1,6 +1,6 @@
-// buildSrc/src/main/kotlin/JsmmmCommon.kt
-import net.fabricmc.loom.task.RemapJarTask
+// buildSrc/src/main/kotlin/JSMMMCommon.kt
 import net.fabricmc.loom.task.FabricModJsonV1Task
+import net.fabricmc.loom.task.RemapJarTask
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
@@ -9,19 +9,29 @@ import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.language.jvm.tasks.ProcessResources
 import org.gradle.kotlin.dsl.*
-import org.gradle.kotlin.dsl.getByType
 
-fun Project.configureJsmmmCommon() {
+fun Project.configureJsmmmFabricTarget(loaderName: String) {
     val mcVersion: String by project
     val loaderVersion: String by project
     val javaVersion: String by project
     val symbol: String by project
-    val modVersion = rootProject.property("mod_version") as String   
 
-    // eigen, niet-gedeelde map per subproject
     val generatedResources = layout.buildDirectory.dir("generated/resources")
-    val sourceSets = extensions.getByType<SourceSetContainer>()   // <-- expliciet ophalen
-    sourceSets.getByName("client").resources.srcDir(generatedResources)
+    val sourceSets = extensions.getByType<SourceSetContainer>()
+
+    sourceSets["client"].java.srcDirs(
+        rootProject.file("common/src/client/java"),
+        rootProject.file("loaders/$loaderName/src/client/java"),
+    )
+    sourceSets["client"].resources.srcDirs(
+        rootProject.file("common/src/client/resources"),
+        rootProject.file("loaders/$loaderName/src/client/resources"),
+        generatedResources,
+    )
+
+    group = rootProject.property("maven_group") as String
+    version = rootProject.property("mod_version") as String
+    apply(plugin = "maven-publish")
 
     extensions.configure<JavaPluginExtension> {
         withSourcesJar()
@@ -31,18 +41,17 @@ fun Project.configureJsmmmCommon() {
 
     tasks.withType<JavaCompile>().configureEach {
         options.release.set(javaVersion.toInt())
-        options.compilerArgs.addAll(listOf(
-            "-Xplugin:Manifold",
-            "-A$symbol"
-        ))
+        options.compilerArgs.addAll(listOf("-Xplugin:Manifold", "-A$symbol"))
     }
 
-    dependencies.add("annotationProcessor", "systems.manifold:manifold-preprocessor:2024.1.32")
+    dependencies.add("annotationProcessor", "systems.manifold:manifold-preprocessor:2026.1.8")
+    dependencies.add("minecraft", "com.mojang:minecraft:$mcVersion")   // <- eager now, fixes the bug
 
     tasks.named<Jar>("jar") {
         from(rootProject.file("LICENSE")) { rename { "${it}_${project.name}" } }
     }
 
+    val modVersion = rootProject.property("mod_version") as String
     tasks.register("generateModJson", FabricModJsonV1Task::class) {
         outputFile = generatedResources.get().file("fabric.mod.json").asFile
         json {
