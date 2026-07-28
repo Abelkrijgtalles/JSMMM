@@ -37,7 +37,7 @@ tasks.withType<ProcessResources>().configureEach {
 
 sourceSets["main"].java.srcDirs(
     rootProject.file("common/src/client/java"),
-    rootProject.file("loaders/neoforge/src/client/java"),
+    rootProject.file("loaders/neoforge/src/main/java"),
 )
 
 sourceSets["main"].resources.srcDirs(
