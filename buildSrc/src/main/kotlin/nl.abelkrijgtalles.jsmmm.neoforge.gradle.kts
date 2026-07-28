@@ -40,7 +40,7 @@ sourceSets["main"].java.srcDirs(
 
 sourceSets["main"].resources.srcDirs(
     rootProject.file("common/src/client/resources"),
-    rootProject.file("loaders/neoforge/src/client/resources"),
+    rootProject.file("loaders/neoforge/src/main/resources"),
     "src/generated/resources",
     "build/generated/sources",
 )
