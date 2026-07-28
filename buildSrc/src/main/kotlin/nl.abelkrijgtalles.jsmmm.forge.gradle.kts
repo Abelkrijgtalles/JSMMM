@@ -1,12 +1,16 @@
+import org.apache.tools.ant.filters.LineContains
+
 plugins {
-    id("net.neoforged.gradle.userdev")
+    id("net.minecraftforge.gradle")
+    java
 }
 
-val neoForgeVersion: String by project
+val majorForgeVersion: String by project
+val forgeVersion: String by project
 val javaVersion: String by project
+val supportedForgeVersions: String by project
+val supportedMinecraftVersions: String by project
 val symbol: String by project
-val supportedNeoForgeVersions: String by project
-val neoForgeModsToml: String by project
 
 group = rootProject.property("maven_group") as String
 version = rootProject.property("mod_version") as String
@@ -14,38 +18,51 @@ version = rootProject.property("mod_version") as String
 tasks.withType<ProcessResources>().configureEach {
     dependsOn(tasks.compileJava)
     val replaceProperties = mapOf(
+        "major_forge_version" to majorForgeVersion,
         "mod_version" to version,
         "java_version" to javaVersion,
-        "supported_neo_versions" to supportedNeoForgeVersions,
+        "supported_forge_versions" to supportedForgeVersions,
+        "supported_minecraft_versions" to supportedMinecraftVersions,
     )
 
     inputs.properties(replaceProperties)
-    from(rootProject.file("loaders/neoforge/src/main/templates")) {
+    filesMatching("META-INF/mods.toml") {
         expand(replaceProperties)
-        if (!neoForgeModsToml.toBoolean()) {
-            rename("neoforge\\.mods\\.toml", "mods.toml")
-        }
     }
     into("build/generated/sources/modMetadata")
 
     filesMatching("jsmmm.client.mixins.json") {
-        expand("mixinCompatibilityLevel" to mixinCompatibilityLevelFor(javaVersion))
+        filter(
+            mapOf(
+                "negate" to true,
+                "contains" to listOf("\"compatibilityLevel\"")
+            ),
+            LineContains::class.java
+        )
     }
 }
 
+
+java.toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
+
 sourceSets["main"].java.srcDirs(
     rootProject.file("common/src/client/java"),
-    rootProject.file("loaders/neoforge/src/main/java"),
+    rootProject.file("loaders/forge/src/main/java"),
 )
 
 sourceSets["main"].resources.srcDirs(
     rootProject.file("common/src/client/resources"),
-    rootProject.file("loaders/neoforge/src/main/resources"),
+    rootProject.file("loaders/forge/src/main/resources"),
     "src/generated/resources",
     "build/generated/sources",
 )
 
-java.toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
+repositories {
+    minecraft.mavenizer(this)
+    maven(fg.forgeMaven)
+    maven(fg.minecraftLibsMaven)
+    mavenCentral()
+}
 
 tasks.named<JavaCompile>("compileJava") {
     options.release.set(javaVersion.toInt())
@@ -53,11 +70,14 @@ tasks.named<JavaCompile>("compileJava") {
 }
 
 dependencies {
+    implementation(minecraft.dependency("net.minecraftforge:forge:$forgeVersion"))
     annotationProcessor("systems.manifold:manifold-preprocessor:2026.1.8")
-    implementation("net.neoforged:neoforge:$neoForgeVersion")
 }
 
 tasks.named<Jar>("jar") {
+    manifest {
+        attributes["MixinConfigs"] = "jsmmm.client.mixins.json"
+    }
     archiveBaseName.set(rootProject.name)
     archiveClassifier.set("${parent?.name}-${project.name}")
 }

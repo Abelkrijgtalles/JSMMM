@@ -13,4 +13,5 @@ dependencies {
     implementation("net.fabricmc:fabric-loom:1.17-SNAPSHOT")
     implementation("net.fabricmc.fabric-loom-remap:net.fabricmc.fabric-loom-remap.gradle.plugin:1.17.16")
     implementation("net.neoforged.gradle.userdev:net.neoforged.gradle.userdev.gradle.plugin:7.1.38")
+    implementation("net.minecraftforge.gradle:net.minecraftforge.gradle.gradle.plugin:7.0.31")
 }

@@ -1,0 +1,36 @@
+modLoader="javafml"
+loaderVersion = "[${major_forge_version},)"
+
+license = "GPL-3.0-or-later"
+issueTrackerURL = "https://github.com/Abelkrijgtalles/JSMMM/issues"
+showAsResourcePack = false
+clientSideOnly = true
+
+[[mods]]
+    modId = "jsmmm"
+    version = "${mod_version}"
+    displayName = "JUST SHOW ME MY MAP!"
+    updateJSONURL = "https://api.modrinth.com/updates/jsmmm/forge_updates.json"
+    displayURL = "https://github.com/Abelkrijgtalles/JSMMM"
+    logoFile = "assets/jsmmm/icon.png"
+    authors = "Abelpro678"
+    description = "Shows your map while rowing a boat. That's it."
+    displayTest = "NONE"
+
+    [features.jsmmm]
+    javaVersion = "[${java_version},)"
+
+
+[[dependencies.jsmmm]]
+    modId = "forge"
+    mandatory = true
+    versionRange = "${supported_forge_versions}"
+    ordering = "NONE"
+    side = "CLIENT"
+
+[[dependencies.jsmmm]]
+    modId = "minecraft"
+    mandatory = true
+    versionRange = "${supported_minecraft_versions}"
+    ordering = "NONE"
+    side = "CLIENT"
