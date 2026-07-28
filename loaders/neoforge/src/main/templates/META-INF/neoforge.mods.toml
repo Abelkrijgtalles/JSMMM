@@ -22,6 +22,7 @@ config = "jsmmm.client.mixins.json"
 
 [[dependencies.jsmmm]]
 modId = "neoforge"
+mandatory = true
 type = "required"
 versionRange = "${supported_neo_versions}"
 ordering = "NONE"

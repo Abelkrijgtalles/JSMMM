@@ -6,6 +6,7 @@ val neoForgeVersion: String by project
 val javaVersion: String by project
 val symbol: String by project
 val supportedNeoForgeVersions: String by project
+val neoForgeModsToml: String by project
 
 group = rootProject.property("maven_group") as String
 version = rootProject.property("mod_version") as String
@@ -21,6 +22,11 @@ tasks.withType<ProcessResources>().configureEach {
     inputs.properties(replaceProperties)
     from(rootProject.file("loaders/neoforge/src/main/templates")) {
         expand(replaceProperties)
+        println(project.name + neoForgeModsToml.toBoolean())
+        if (!neoForgeModsToml.toBoolean()) {
+            println(project.name + "wat de sigma")
+            rename("neoforge\\.mods\\.toml", "mods.toml")
+        }
     }
     into("build/generated/sources/modMetadata")
 
