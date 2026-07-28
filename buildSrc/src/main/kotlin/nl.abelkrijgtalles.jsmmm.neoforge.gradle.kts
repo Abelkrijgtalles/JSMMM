@@ -22,9 +22,7 @@ tasks.withType<ProcessResources>().configureEach {
     inputs.properties(replaceProperties)
     from(rootProject.file("loaders/neoforge/src/main/templates")) {
         expand(replaceProperties)
-        println(project.name + neoForgeModsToml.toBoolean())
         if (!neoForgeModsToml.toBoolean()) {
-            println(project.name + "wat de sigma")
             rename("neoforge\\.mods\\.toml", "mods.toml")
         }
     }
