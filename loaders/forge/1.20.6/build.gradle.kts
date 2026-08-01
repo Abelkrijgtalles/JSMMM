@@ -1,3 +1,3 @@
 plugins {
-    id("nl.abelkrijgtalles.jsmmm.forge")
+    id("nl.abelkrijgtalles.jsmmm.forge-modern")
 }

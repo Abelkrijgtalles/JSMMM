@@ -46,7 +46,8 @@ fun Project.configureJSMMMFabricTarget(loaderVersion: String, split: Boolean) {
 
     tasks.withType<JavaCompile>().configureEach {
         options.release.set(javaVersion.toInt())
-        options.compilerArgs.addAll(listOf("-Xplugin:Manifold", "-A$symbol"))
+        options.compilerArgs.add("-Xplugin:Manifold")
+        options.compilerArgs.addAll(symbol.split(" ").map { "-A$it" })
     }
 
     dependencies.add("annotationProcessor", "systems.manifold:manifold-preprocessor:2026.1.8")
