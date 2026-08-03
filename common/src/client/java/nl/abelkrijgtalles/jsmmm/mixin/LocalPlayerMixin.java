@@ -1,3 +1,4 @@
+#if !MC_1_15_2
 package nl.abelkrijgtalles.jsmmm.mixin;
 
 import net.minecraft.client.player.LocalPlayer;
@@ -31,7 +32,7 @@ public abstract class LocalPlayerMixin {
 	public abstract InteractionHand getUsedItemHand();
 	#else
 	@Invoker("getUsedItemHand")
-	public abstract InteractionHand invokeGetUsedItemHand();
+	abstract InteractionHand invokeGetUsedItemHand();
 	#endif
 
 	@Inject(method = "rideTick", at = @At(value = "FIELD", target = "Lnet/minecraft/client/player/LocalPlayer;handsBusy:Z", opcode = Opcodes.PUTFIELD, ordinal = 1, shift = At.Shift.AFTER))
@@ -41,8 +42,8 @@ public abstract class LocalPlayerMixin {
 				#else invokeGetUsedItemHand();
 				#endif
 
-		#if MC_1_18_PRE || MC_1_17 || MC_1_14_4
-			if (getUsedItemHand() == null) {
+		#if MC_1_14_4 || MC_1_16_5 || MC_1_17 || MC_1_17_1 || MC_1_18_PRE
+			if (hand == null) {
 				hand = InteractionHand.MAIN_HAND;
 			}
 		#endif
@@ -56,3 +57,4 @@ public abstract class LocalPlayerMixin {
 	}
 
 }
+#endif

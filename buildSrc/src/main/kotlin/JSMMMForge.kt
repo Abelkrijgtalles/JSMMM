@@ -47,6 +47,7 @@ fun Project.configureJSMMMForgeTarget() {
     sourceSets["main"].java.srcDirs(
         rootProject.file("common/src/client/java"),
         rootProject.file("loaders/forge/src/main/java"),
+        project.file("src/main/java")
     )
 
     sourceSets["main"].resources.srcDirs(
@@ -61,7 +62,13 @@ fun Project.configureJSMMMForgeTarget() {
     }
 
     tasks.named<JavaCompile>("compileJava") {
-        options.release.set(javaVersion.toInt())
+        val javaVersionInt = javaVersion.toInt()
+        if (javaVersionInt >= 9) {
+            options.release.set(javaVersionInt)
+        } else {
+            sourceCompatibility = javaVersion
+            targetCompatibility = javaVersion
+        }
         options.compilerArgs.add("-Xplugin:Manifold")
         options.compilerArgs.addAll(symbol.split(" ").map { "-A$it" })
     }
