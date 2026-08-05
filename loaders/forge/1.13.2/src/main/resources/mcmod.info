@@ -1,0 +1,15 @@
+[
+  {
+    "modid": "jsmmm",
+    "name": "JUST SHOW ME MY MAP!",
+    "description": "Shows your map while rowing a boat. That's it.",
+    "version": "${mod_version}",
+    "url": "https://github.com/Abelkrijgtalles/JSMMM",
+    "updateJSON": "https://api.modrinth.com/updates/jsmmm/forge_updates.json",
+    "authorList": ["Abelpro678"],
+    "credits": "",
+    "logoFile": "assets/jsmmm/icon.png",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

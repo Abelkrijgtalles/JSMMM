@@ -1,4 +1,3 @@
-#if MC_1_15_2
 package nl.abelkrijgtalles.jsmmm.mixin;
 
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -36,4 +35,3 @@ public abstract class ClientPlayerEntityMixin {
     }
 
 }
-#endif

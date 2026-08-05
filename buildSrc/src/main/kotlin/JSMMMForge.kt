@@ -1,12 +1,13 @@
 import org.apache.tools.ant.filters.LineContains
 import org.gradle.api.Project
+import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.jvm.tasks.Jar
 import org.gradle.language.jvm.tasks.ProcessResources
 import org.gradle.kotlin.dsl.*
 
-fun Project.configureJSMMMForgeTarget() {
+fun Project.configureJSMMMForgeTarget(modsToml: Boolean) {
     val majorForgeVersion: String by project
     val javaVersion: String by project
     val supportedForgeVersions: String by project
@@ -18,16 +19,28 @@ fun Project.configureJSMMMForgeTarget() {
 
     tasks.withType<ProcessResources>().configureEach {
         dependsOn(tasks["compileJava"])
-        val replaceProperties = mapOf(
-            "major_forge_version" to majorForgeVersion,
-            "mod_version" to version,
-            "java_version" to javaVersion,
-            "supported_forge_versions" to supportedForgeVersions,
-            "supported_minecraft_versions" to supportedMinecraftVersions,
-        )
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+        if (!modsToml) {
+            exclude("META-INF/mods.toml")
+        }
+
+        val replaceProperties: Map<String, Any> = if (modsToml) {
+            mapOf(
+                "major_forge_version" to majorForgeVersion,
+                "mod_version" to version,
+                "java_version" to javaVersion,
+                "supported_forge_versions" to supportedForgeVersions,
+                "supported_minecraft_versions" to supportedMinecraftVersions,
+            )
+        } else {
+            mapOf(
+                "mod_version" to version,
+            )
+        }
 
         inputs.properties(replaceProperties)
-        filesMatching("META-INF/mods.toml") {
+        filesMatching(listOf("META-INF/mods.toml", "mcmod.info")) {
             expand(replaceProperties)
         }
         into("build/generated/sources/modMetadata")
@@ -55,6 +68,7 @@ fun Project.configureJSMMMForgeTarget() {
         rootProject.file("loaders/forge/src/main/resources"),
         "src/generated/resources",
         "build/generated/sources",
+        project.file("src/main/resources")
     )
 
     repositories {

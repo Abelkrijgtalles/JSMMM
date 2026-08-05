@@ -1,4 +1,4 @@
-#if !MC_1_15_2
+#if !NO_MM
 package nl.abelkrijgtalles.jsmmm.mixin;
 
 import net.minecraft.client.player.LocalPlayer;
