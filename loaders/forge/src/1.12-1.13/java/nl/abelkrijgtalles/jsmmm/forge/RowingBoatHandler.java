@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class RowingBoatHandler {
     @SubscribeEvent
-    public static void onPlayerTick(TickEvent.ClientTickEvent event) {
+    public void onPlayerTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END) return;
 
         EntityPlayerSP player = Minecraft
@@ -23,6 +23,8 @@ public class RowingBoatHandler {
                 #endif.player;
 
         if (player == null) return;
+        //noinspection ConstantValue
+        if (player.getHeldItemMainhand() == null) return;
 
         if (player.getHeldItemMainhand().getItem() instanceof ItemMap) {
             player.rowingBoat = false;

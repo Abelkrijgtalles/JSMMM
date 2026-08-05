@@ -1,5 +1,5 @@
 package nl.abelkrijgtalles.jsmmm;
-#define MC_1_12
+
 import net.minecraftforge.fml.common.Mod;
 #if MC_1_12 || MC_1_13_2 || MC_1_14_2 || MC_1_14_4
 import net.minecraftforge.common.MinecraftForge;
@@ -19,7 +19,7 @@ public class JSMMMForge {
         #endif
 
         #if MC_1_12 || MC_1_13_2
-        MinecraftForge.EVENT_BUS.register(RowingBoatHandler.class);
+        MinecraftForge.EVENT_BUS.register(new RowingBoatHandler());
         #endif
     }
 }
