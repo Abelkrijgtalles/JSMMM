@@ -23,6 +23,8 @@ fun Project.configureJSMMMForgeTarget(modsToml: Boolean) {
 
         if (!modsToml) {
             exclude("META-INF/mods.toml")
+        } else {
+            exclude("mcmod.info")
         }
 
         val replaceProperties: Map<String, Any> = if (modsToml) {
