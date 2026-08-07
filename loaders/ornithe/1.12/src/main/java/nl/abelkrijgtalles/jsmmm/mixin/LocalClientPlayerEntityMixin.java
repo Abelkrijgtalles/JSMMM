@@ -26,6 +26,8 @@ public abstract class LocalClientPlayerEntityMixin {
             hand = InteractionHand.MAIN_HAND;
         }
 
+        if (((LivingEntity) (Object) this).getItemInHand(hand) == null) return;
+
         if (((LivingEntity) (Object) this).getItemInHand(hand).getItem() instanceof FilledMapItem) {
             this.rowing = false;
         }
