@@ -27,10 +27,6 @@ repositories {
     maven("https://repo.spongepowered.org/repository/maven-public/")
 }
 
-minecraft {
-    useDefaultAccessTransformer()
-}
-
 dependencies {
     implementation(minecraft.dependency("net.minecraftforge:forge:$forgeVersion"))
     compileOnly("org.spongepowered:mixin:0.8.5")
