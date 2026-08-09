@@ -4,7 +4,7 @@ plugins {
     id("net.minecraftforge.renamer")
 }
 
-configureJSMMMForgeTarget(true)
+configureJSMMMForgeTarget(ForgeModFile.MODS_TOML)
 
 val javaVersion: String by project
 val forgeVersion: String by project

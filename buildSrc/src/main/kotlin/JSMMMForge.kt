@@ -7,7 +7,14 @@ import org.gradle.jvm.tasks.Jar
 import org.gradle.language.jvm.tasks.ProcessResources
 import org.gradle.kotlin.dsl.*
 
-fun Project.configureJSMMMForgeTarget(modsToml: Boolean) {
+enum class ForgeModFile {
+    MODS_TOML,
+    MCMOD,
+    LITEMOD
+}
+
+fun Project.configureJSMMMForgeTarget(modFile: ForgeModFile) {
+    val forgeVersion: String by project
     val majorForgeVersion: String by project
     val javaVersion: String by project
     val supportedForgeVersions: String by project
@@ -21,28 +28,44 @@ fun Project.configureJSMMMForgeTarget(modsToml: Boolean) {
         dependsOn(tasks["compileJava"])
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
-        if (!modsToml) {
-            exclude("META-INF/mods.toml")
-        } else {
-            exclude("mcmod.info")
+        when (modFile) {
+            ForgeModFile.MODS_TOML -> {
+                exclude("mcmod.info")
+            }
+            ForgeModFile.MCMOD -> {
+                exclude("META-INF/mods.toml")
+            }
+            ForgeModFile.LITEMOD -> {
+                exclude("META-INF/mods.toml")
+                exclude("mcmod.info")
+            }
         }
 
-        val replaceProperties: Map<String, Any> = if (modsToml) {
-            mapOf(
-                "major_forge_version" to majorForgeVersion,
-                "mod_version" to version,
-                "java_version" to javaVersion,
-                "supported_forge_versions" to supportedForgeVersions,
-                "supported_minecraft_versions" to supportedMinecraftVersions,
-            )
-        } else {
-            mapOf(
-                "mod_version" to version,
-            )
+        val replaceProperties: Map<String, Any> = when (modFile) {
+            ForgeModFile.MODS_TOML -> {
+                mapOf(
+                    "major_forge_version" to majorForgeVersion,
+                    "mod_version" to version,
+                    "java_version" to javaVersion,
+                    "supported_forge_versions" to supportedForgeVersions,
+                    "supported_minecraft_versions" to supportedMinecraftVersions,
+                )
+            }
+            ForgeModFile.LITEMOD -> {
+                mapOf(
+                    "minecraft_version" to forgeVersion.split("-")[0],
+                    "mod_version" to version,
+                )
+            }
+            else -> {
+                mapOf(
+                    "mod_version" to version,
+                )
+            }
         }
 
         inputs.properties(replaceProperties)
-        filesMatching(listOf("META-INF/mods.toml", "mcmod.info")) {
+        filesMatching(listOf("META-INF/mods.toml", "mcmod.info", "litemod.json")) {
             expand(replaceProperties)
         }
         into("build/generated/sources/modMetadata")
@@ -61,13 +84,14 @@ fun Project.configureJSMMMForgeTarget(modsToml: Boolean) {
     val sourceSets = extensions.getByType<SourceSetContainer>()
     sourceSets["main"].java.srcDirs(
         rootProject.file("common/src/client/java"),
-        rootProject.file("loaders/forge/src/main/java"),
+        parent?.file("src/main/java"),
         project.file("src/main/java")
     )
 
     sourceSets["main"].resources.srcDirs(
         rootProject.file("common/src/client/resources"),
         rootProject.file("loaders/forge/src/main/resources"),
+        parent?.file("src/main/resources"),
         "src/generated/resources",
         "build/generated/sources",
         project.file("src/main/resources")

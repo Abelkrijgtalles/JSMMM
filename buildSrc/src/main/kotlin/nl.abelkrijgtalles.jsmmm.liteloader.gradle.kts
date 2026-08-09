@@ -4,7 +4,7 @@ plugins {
     id("net.minecraftforge.renamer")
 }
 
-configureJSMMMForgeTarget(ForgeModFile.MODS_TOML)
+configureJSMMMForgeTarget(ForgeModFile.LITEMOD)
 
 val javaVersion: String by project
 val forgeVersion: String by project
@@ -24,24 +24,35 @@ repositories {
     minecraft.mavenizer(this)
     maven(fg.forgeMaven)
     maven(fg.minecraftLibsMaven)
-    maven("https://maven.fabricmc.net/") { name = "Fabric" }
+    maven("https://repo.spongepowered.org/repository/maven-public/")
+}
+
+minecraft {
+    useDefaultAccessTransformer()
 }
 
 dependencies {
     implementation(minecraft.dependency("net.minecraftforge:forge:$forgeVersion"))
-    // I'm using Fabric's fork, because this also remaps shadowed methods
-    annotationProcessor("net.fabricmc:sponge-mixin:0.17.3+mixin.0.8.7")
+    compileOnly("org.spongepowered:mixin:0.8.5")
+    annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
 }
 
-renamer.mappings(minecraft.dependency.toSrg)
+renamer.mappings(minecraft.dependency.toObf)
 
-// I don't really know what will happen if I don't expand the value in the other projects, so I'll just do it this way
 tasks.processResources {
     filesMatching("jsmmm.client.mixins.json") {
         filter { line ->
             line.replace(
                 "\"package\": \"nl.abelkrijgtalles.jsmmm.mixin\",",
                 "\"package\": \"nl.abelkrijgtalles.jsmmm.mixin\",\n\t\"refmap\": \"main.refmap.json\","
+            )
+        }
+    }
+    filesMatching("jsmmm.client.mixins.json") {
+        filter { line ->
+            line.replace(
+                "\"LocalPlayerMixin\"",
+                "\"EntityPlayerSPMixin\""
             )
         }
     }

@@ -3,7 +3,7 @@ plugins {
     id("net.minecraftforge.gradle")
 }
 
-configureJSMMMForgeTarget(true)
+configureJSMMMForgeTarget(ForgeModFile.MODS_TOML)
 
 val javaVersion: String by project
 val forgeVersion: String by project

@@ -1,0 +1,10 @@
+{
+  "mcversion": "${minecraft_version}",
+  "name": "jsmmm",
+  "revision": 1,
+  "author": "Abelpro678",
+  "version": "${mod_version}",
+  "description": "Shows your map while rowing a boat. That's it.",
+  "url": "https://github.com/Abelkrijgtalles/JSMMM",
+  "mixinConfigs": ["jsmmm.client.mixins.json"]
+}
