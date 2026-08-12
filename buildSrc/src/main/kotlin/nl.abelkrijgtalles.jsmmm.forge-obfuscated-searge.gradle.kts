@@ -44,13 +44,4 @@ tasks.processResources {
             )
         }
     }
-    // I think we need to repeat it because it doesn't work otherwise
-    filesMatching("jsmmm.client.mixins.json") {
-        filter { line ->
-            line.replace(
-                "\"LocalPlayerMixin\"",
-                "\"ClientPlayerEntityMixin\""
-            )
-        }
-    }
 }

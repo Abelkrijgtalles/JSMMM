@@ -44,12 +44,4 @@ tasks.processResources {
             )
         }
     }
-    filesMatching("jsmmm.client.mixins.json") {
-        filter { line ->
-            line.replace(
-                "\"LocalPlayerMixin\"",
-                "\"EntityPlayerSPMixin\""
-            )
-        }
-    }
 }

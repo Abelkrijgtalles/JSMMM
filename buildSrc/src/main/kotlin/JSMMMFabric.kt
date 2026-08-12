@@ -19,13 +19,23 @@ fun Project.configureJSMMMFabricTarget(loaderVersion: String, split: Boolean) {
     val javaVersion: String by project
     val symbol: String by project
     val supportedMcVersions: String by project
+    val namespace: String by project
 
     val generatedResources = layout.buildDirectory.dir("generated/resources")
     val sourceSets = extensions.getByType<SourceSetContainer>()
     val targetSourceSet = if (split) "client" else "main"
 
+    if (namespace != "official") {
+        val remapCommon = registerSourceRemapTask(
+            inputDir = rootProject.file("common/src/client/java"),
+            targetNamespace = namespace
+        )
+        sourceSets[targetSourceSet].java.srcDirs(remapCommon)
+    } else {
+        sourceSets[targetSourceSet].java.srcDirs(rootProject.file("common/src/client/java"))
+    }
+
     sourceSets[targetSourceSet].java.srcDirs(
-        rootProject.file("common/src/client/java"),
         rootProject.file("loaders/fabric/src/client/java"),
     )
     sourceSets[targetSourceSet].resources.srcDirs(

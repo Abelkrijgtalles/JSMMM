@@ -7,6 +7,7 @@ repositories {
     maven("https://maven.neoforged.net/releases") { name = "NeoForge" }
     maven("https://maven.ornithemc.net/releases") { name = "Ornithe Releases" }
     maven("https://maven.ornithemc.net/snapshots") { name = "Ornithe Snapshots" }
+    maven("https://maven.wagyourtail.xyz/snapshots/") { name = "WagYourMaven" }
     mavenCentral()
     gradlePluginPortal()
 }
@@ -18,4 +19,5 @@ dependencies {
     implementation("net.minecraftforge.gradle:net.minecraftforge.gradle.gradle.plugin:7.0.31")
     implementation("net.minecraftforge.renamer:net.minecraftforge.renamer.gradle.plugin:1.1.7")
     implementation("ploceus:ploceus.gradle.plugin:1.17-SNAPSHOT")
+    implementation("net.fabricmc:mapping-io:0.9.1")
 }

@@ -20,6 +20,7 @@ fun Project.configureJSMMMForgeTarget(modFile: ForgeModFile) {
     val supportedForgeVersions: String by project
     val supportedMinecraftVersions: String by project
     val symbol: String by project
+    val namespace: String by project
 
     group = rootProject.property("maven_group") as String
     version = rootProject.property("mod_version") as String
@@ -82,8 +83,18 @@ fun Project.configureJSMMMForgeTarget(modFile: ForgeModFile) {
     }
 
     val sourceSets = extensions.getByType<SourceSetContainer>()
+
+    if (namespace != "official") {
+        val remapCommon = registerSourceRemapTask(
+            inputDir = rootProject.file("common/src/client/java"),
+            targetNamespace = namespace
+        )
+        sourceSets["main"].java.srcDirs(remapCommon)
+    } else {
+        sourceSets["main"].java.srcDirs(rootProject.file("common/src/client/java"))
+    }
+
     sourceSets["main"].java.srcDirs(
-        rootProject.file("common/src/client/java"),
         parent?.file("src/main/java"),
         project.file("src/main/java")
     )

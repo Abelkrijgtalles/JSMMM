@@ -23,14 +23,3 @@ tasks.named<RemapJarTask>("remapJar") {
     archiveBaseName.set(rootProject.name)
     archiveClassifier.set("${parent?.name}-${project.name}")
 }
-
-tasks.processResources {
-    filesMatching("jsmmm.client.mixins.json") {
-        filter { line ->
-            line.replace(
-                "\"LocalPlayerMixin\"",
-                "\"LocalClientPlayerEntityMixin\""
-            )
-        }
-    }
-}
