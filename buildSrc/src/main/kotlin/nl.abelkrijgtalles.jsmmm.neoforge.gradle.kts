@@ -7,6 +7,7 @@ val javaVersion: String by project
 val symbol: String by project
 val supportedNeoForgeVersions: String by project
 val neoForgeModsToml: String by project
+val namespace: String by project
 
 group = rootProject.property("maven_group") as String
 version = rootProject.property("mod_version") as String
@@ -33,8 +34,17 @@ tasks.withType<ProcessResources>().configureEach {
     }
 }
 
+if (namespace != "official") {
+    val remapCommon = registerSourceRemapTask(
+        inputDir = rootProject.file("common/src/client/java"),
+        targetNamespace = namespace
+    )
+    sourceSets["main"].java.srcDirs(remapCommon)
+} else {
+    sourceSets["main"].java.srcDirs(rootProject.file("common/src/client/java"))
+}
+
 sourceSets["main"].java.srcDirs(
-    rootProject.file("common/src/client/java"),
     rootProject.file("loaders/neoforge/src/main/java"),
 )
 

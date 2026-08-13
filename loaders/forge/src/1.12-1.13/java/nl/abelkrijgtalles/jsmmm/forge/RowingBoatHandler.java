@@ -2,13 +2,14 @@ package nl.abelkrijgtalles.jsmmm.forge;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.item.ItemMap;
 #if MC_1_12
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 #else
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 #endif
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import nl.abelkrijgtalles.jsmmm.HandsBusySetter;
+import nl.abelkrijgtalles.jsmmm.RideTickHandler;
 
 public class RowingBoatHandler {
     @SubscribeEvent
@@ -22,12 +23,6 @@ public class RowingBoatHandler {
                 .getInstance()
                 #endif.player;
 
-        if (player == null) return;
-        //noinspection ConstantValue
-        if (player.getHeldItemMainhand() == null) return;
-
-        if (player.getHeldItemMainhand().getItem() instanceof ItemMap) {
-            player.rowingBoat = false;
-        }
+        RideTickHandler.handleRideTick(player, (HandsBusySetter) handsBusy -> player.rowingBoat = handsBusy);
     }
 }
