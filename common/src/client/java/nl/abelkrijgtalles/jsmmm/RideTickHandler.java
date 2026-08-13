@@ -12,13 +12,13 @@ public class RideTickHandler {
 
         InteractionHand hand = player.getUsedItemHand();
 
-        //noinspection ConstantValue - In earlier versions, this isn't constant
+        //noinspection ConstantValue - In earlier versions, this wasn't constant
         if (hand == null) {
             hand = InteractionHand.MAIN_HAND;
         }
 
         ItemStack itemStack = player.getItemInHand(hand);
-        //noinspection ConstantValue - In earlier versions, this isn't constant
+        //noinspection ConstantValue - In earlier versions, this wasn't constant
         if (itemStack == null) return;
         if (itemStack.getItem() instanceof MapItem) {
             handsBusySetter.setHandsBusy(false);
