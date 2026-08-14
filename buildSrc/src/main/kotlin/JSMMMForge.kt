@@ -130,5 +130,6 @@ fun Project.configureJSMMMForgeTarget(modFile: ForgeModFile) {
 
     tasks.named<Jar>("jar") {
         archiveBaseName.set(rootProject.name)
+        from(rootProject.file("LICENSE")) { rename { "${it}_JSMMM" } }
     }
 }
