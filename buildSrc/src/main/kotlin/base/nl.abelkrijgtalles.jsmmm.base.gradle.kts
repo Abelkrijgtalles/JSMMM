@@ -49,9 +49,3 @@ tasks.named<Jar>("jar") {
 dependencies {
     annotationProcessor(libs.manifold)
 }
-
-// Uncomment when Ornithe is refactored
-//fun mixinCompatibilityLevelFor(javaVersion: String): String {
-//    val level = javaVersion.toInt()
-//    return "JAVA_$level"
-//}
