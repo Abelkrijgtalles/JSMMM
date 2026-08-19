@@ -1,0 +1,7 @@
+[libraries]
+manifold = { group = "systems.manifold", name = "manifold-preprocessor", version = "2026.1.8" }
+fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version = "0.19.3"}
+# Unfortunually I can't set a global version ref, because buildSrc-catalog and the kotlin compiler don't like it
+fabric-loom = { group = "net.fabricmc", name = "fabric-loom", version = "1.17-SNAPSHOT"}
+# Don't know why fabric-loom doesn't need the .gradle.plugin stuff, but this works ig
+fabric-loom-remapped = { group = "net.fabricmc.fabric-loom-remap", name = "net.fabricmc.fabric-loom-remap.gradle.plugin", version = "1.17-SNAPSHOT"}

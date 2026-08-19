@@ -1,1 +1,1 @@
-plugins { id("nl.abelkrijgtalles.jsmmm.fabric-obfuscated-merged") }
+plugins { id("nl.abelkrijgtalles.jsmmm.fabric.obfuscated") }

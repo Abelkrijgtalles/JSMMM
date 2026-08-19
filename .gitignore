@@ -41,3 +41,4 @@ replay_*.log
 
 runs/
 .kotlin/
+buildSrc/src/main/kotlin/libs.kt
