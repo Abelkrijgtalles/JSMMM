@@ -15,7 +15,7 @@ repositories {
 dependencies {
     implementation(libs.fabric.loom)
     implementation(libs.fabric.loom.remapped)
-    implementation("net.neoforged.gradle.userdev:net.neoforged.gradle.userdev.gradle.plugin:7.1.38")
+    implementation(libs.neoforge.gradle)
     implementation("net.minecraftforge.gradle:net.minecraftforge.gradle.gradle.plugin:7.0.31")
     implementation("net.minecraftforge.renamer:net.minecraftforge.renamer.gradle.plugin:1.1.7")
     implementation(libs.ploceus)

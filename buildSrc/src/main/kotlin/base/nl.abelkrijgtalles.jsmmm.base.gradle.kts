@@ -37,7 +37,7 @@ extensions.configure<JavaPluginExtension> {
     targetCompatibility = JavaVersion.toVersion(javaVersion)
 }
 
-tasks.withType<JavaCompile>().configureEach {
+tasks.compileJava {
     options.compilerArgs.add("-Xplugin:Manifold")
     options.compilerArgs.addAll(symbol.split(" ").map { "-A$it" })
 }

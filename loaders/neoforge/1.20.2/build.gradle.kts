@@ -1,1 +1,1 @@
-plugins { id("nl.abelkrijgtalles.jsmmm.neoforge")}
+plugins { id("nl.abelkrijgtalles.jsmmm.neoforge.mods.toml")}

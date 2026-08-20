@@ -6,3 +6,4 @@ fabric-loom = { group = "net.fabricmc", name = "fabric-loom", version = "1.17-SN
 # Don't know why fabric-loom doesn't need the .gradle.plugin stuff, but this works ig
 fabric-loom-remapped = { group = "net.fabricmc.fabric-loom-remap", name = "net.fabricmc.fabric-loom-remap.gradle.plugin", version = "1.17-SNAPSHOT"}
 ploceus = { group = "ploceus", name = "ploceus.gradle.plugin", version = "1.17-SNAPSHOT" }
+neoforge-gradle = { group = "net.neoforged.gradle.userdev", name = "net.neoforged.gradle.userdev.gradle.plugin", version = "7.1.38" }

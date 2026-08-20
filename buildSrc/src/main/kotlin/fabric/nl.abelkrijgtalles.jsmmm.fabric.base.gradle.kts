@@ -3,6 +3,7 @@ import net.fabricmc.loom.task.RemapJarTask
 
 plugins {
     id("nl.abelkrijgtalles.jsmmm.base")
+    id("nl.abelkrijgtalles.jsmmm.base.with-mixin-compatibility-level")
 }
 
 val javaVersion: String by project
@@ -47,10 +48,6 @@ dependencies.add("minecraft","com.mojang:minecraft:$mcVersion")
 
 tasks.withType<ProcessResources>().configureEach {
     dependsOn("generateModJson")
-
-    filesMatching("jsmmm.client.mixins.json") {
-        expand("mixinCompatibilityLevel" to mixinCompatibilityLevelFor(javaVersion))
-    }
 }
 tasks.withType<Jar>().configureEach {
     dependsOn("generateModJson")
