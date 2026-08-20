@@ -18,6 +18,6 @@ dependencies {
     implementation("net.neoforged.gradle.userdev:net.neoforged.gradle.userdev.gradle.plugin:7.1.38")
     implementation("net.minecraftforge.gradle:net.minecraftforge.gradle.gradle.plugin:7.0.31")
     implementation("net.minecraftforge.renamer:net.minecraftforge.renamer.gradle.plugin:1.1.7")
-    implementation("ploceus:ploceus.gradle.plugin:1.17-SNAPSHOT")
+    implementation(libs.ploceus)
     implementation("net.fabricmc:mapping-io:0.9.1")
 }
