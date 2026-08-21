@@ -7,3 +7,4 @@ fabric-loom = { group = "net.fabricmc", name = "fabric-loom", version = "1.17-SN
 fabric-loom-remapped = { group = "net.fabricmc.fabric-loom-remap", name = "net.fabricmc.fabric-loom-remap.gradle.plugin", version = "1.17-SNAPSHOT"}
 ploceus = { group = "ploceus", name = "ploceus.gradle.plugin", version = "1.17-SNAPSHOT" }
 neoforge-gradle = { group = "net.neoforged.gradle.userdev", name = "net.neoforged.gradle.userdev.gradle.plugin", version = "7.1.38" }
+sponge-mixin = { group = "net.fabricmc", name = "sponge-mixin", version = "0.17.3+mixin.0.8.7" }

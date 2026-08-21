@@ -1,5 +1,5 @@
 plugins {
-    id("nl.abelkrijgtalles.jsmmm.forge-obfuscated-pre-mixin")
+    id("nl.abelkrijgtalles.jsmmm.forge.obfuscated.nomixin")
 }
 
 sourceSets["main"].java.srcDir(parent?.file("src/1.12-1.13/java") ?: "")

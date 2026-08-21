@@ -1,3 +1,3 @@
 plugins {
-    id("nl.abelkrijgtalles.jsmmm.forge-obfuscated")
+    id("nl.abelkrijgtalles.jsmmm.forge.obfuscated.mixin")
 }

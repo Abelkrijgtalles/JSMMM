@@ -43,6 +43,8 @@ tasks.compileJava {
 }
 
 tasks.named<Jar>("jar") {
+    archiveBaseName.set(rootProject.name)
+    archiveClassifier.set("${parent?.name}-${project.name}")
     from(rootProject.file("LICENSE")) { rename { "${it}_JSMMM" } }
 }
 

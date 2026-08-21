@@ -51,9 +51,6 @@ tasks.withType<ProcessResources>().configureEach {
 }
 tasks.withType<Jar>().configureEach {
     dependsOn("generateModJson")
-
-    archiveBaseName.set(rootProject.name)
-    archiveClassifier.set("${parent?.name}-${project.name}")
 }
 tasks.withType<RemapJarTask>().configureEach {
     dependsOn("generateModJson")
