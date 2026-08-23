@@ -1,3 +1,3 @@
 plugins {
-    id("nl.abelkrijgtalles.jsmmm.liteloader")
+    id("nl.abelkrijgtalles.jsmmm.liteloader.base")
 }

@@ -1,5 +1,5 @@
 plugins {
-    id("nl.abelkrijgtalles.jsmmm.liteloader")
+    id("nl.abelkrijgtalles.jsmmm.liteloader.base")
 }
 
 // Forge somehow applies the Minecraft configuration to every project that uses that Forge version, so this stops conflicts with :loaders:forge:1.12

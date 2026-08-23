@@ -1,6 +1,5 @@
 plugins {
     id("nl.abelkrijgtalles.jsmmm.forge.obfuscated")
-    id("nl.abelkrijgtalles.jsmmm.forge.mods.toml")
 }
 
 renamer.enableMixinRefmaps {
@@ -28,5 +27,5 @@ repositories {
 }
 
 dependencies {
-    annotationProcessor(libs.`sponge-mixin`)
+    annotationProcessor(libs.`mixin-ap`)
 }
