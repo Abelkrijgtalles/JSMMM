@@ -16,8 +16,8 @@ dependencies {
     implementation(libs.fabric.loom)
     implementation(libs.fabric.loom.remapped)
     implementation(libs.neoforge.gradle)
-    implementation("net.minecraftforge.gradle:net.minecraftforge.gradle.gradle.plugin:7.0.31")
-    implementation("net.minecraftforge.renamer:net.minecraftforge.renamer.gradle.plugin:1.1.7")
+    implementation(libs.forge.gradle)
+    implementation(libs.forge.renamer)
     implementation(libs.ploceus)
-    implementation("net.fabricmc:mapping-io:0.9.1")
+    implementation(libs.mapping.io)
 }
