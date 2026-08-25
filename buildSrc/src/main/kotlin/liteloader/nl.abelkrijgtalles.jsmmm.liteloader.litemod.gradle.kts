@@ -11,4 +11,6 @@ tasks.withType<ProcessResources>().configureEach {
         expand(replaceProperties)
     }
     into("build/generated/sources/modMetadata")
+
+    exclude("assets/jsmmm/icon.png")
 }
