@@ -1,7 +1,9 @@
 import groovy.json.JsonSlurper
 import nl.abelkrijgtalles.jsmmm.mappingsgenerator.MappingsGenerator
 import org.gradle.api.Project
+import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.tasks.JavaExec
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.maven
 import org.gradle.kotlin.dsl.register
 import java.io.File
@@ -54,38 +56,60 @@ fun Project.resolveMcClientJar(mcVersion: String): File {
     return jarFile
 }
 
+private fun remapTaskNameFor(targetNamespace: String): String {
+    val pascalCase = targetNamespace
+        .split(Regex("[^A-Za-z0-9]+"))
+        .filter { it.isNotEmpty() }
+        .joinToString("") { it.replaceFirstChar(Char::uppercaseChar) }
+    return "remapCommonSourcesTo$pascalCase"
+}
 
-fun Project.registerSourceRemapTask(
+fun Project.getOrRegisterSourceRemapTask(
     inputDir: File,
     targetNamespace: String,
-) = tasks.register<JavaExec>("remapCommonSources") {
-    val mapsTxt: File = rootProject.file("maps.txt");
-    val mappingsFile: File = rootProject.layout.buildDirectory.file("maps.tiny").get().asFile
+): TaskProvider<JavaExec> {
+    val taskName = remapTaskNameFor(targetNamespace)
 
-    project.repositories.maven("https://maven.wagyourtail.xyz/snapshots/")
-    val toolCp = project.configurations.detachedConfiguration(
-        project.dependencies.create("xyz.wagyourtail.unimined:source-remap:1.0.5-SNAPSHOT:all")
-    )
-    classpath = toolCp
-    mainClass.set("com.replaymod.gradle.remap.MainKt")
-
-    doFirst {
-        if (!mappingsFile.exists() || mapsTxt.lastModified() > mappingsFile.lastModified()) {
-            MappingsGenerator.generateMappings(mapsTxt.toPath(), mappingsFile.toPath())
-        }
-        val mcJar = resolveMcClientJar("26.2")
-        val projectClasspath = project.configurations.getByName("compileClasspath").files
-        val fullClasspath = (projectClasspath + mcJar)
-            .distinct()
-            .joinToString(File.pathSeparator) { it.absolutePath }
-        args = listOf(
-            "-cp", fullClasspath,
-            "-m", mappingsFile.absolutePath,
-            "-r", inputDir.absolutePath, layout.buildDirectory.dir("generated/remapped-common").get().asFile.absolutePath,
-            "-t", targetNamespace,
-        )
+    if (taskName in rootProject.tasks.names) {
+        return rootProject.tasks.named(taskName, JavaExec::class.java)
     }
-    inputs.dir(inputDir)
-    inputs.file(mapsTxt)
-    outputs.dir(layout.buildDirectory.dir("generated/remapped-common").get().asFile)
+
+    return rootProject.tasks.register<JavaExec>(taskName) {
+        val mapsTxt: File = rootProject.file("maps.txt")
+        val mappingsFile: File = rootProject.layout.buildDirectory.file("maps.tiny").get().asFile
+        val outputDir: File = rootProject.layout.buildDirectory.dir("generated/$targetNamespace").get().asFile
+
+        rootProject.repositories.maven("https://maven.wagyourtail.xyz/snapshots/")
+        rootProject.repositories.mavenCentral()
+        rootProject.repositories.maven("https://repo.spongepowered.org/maven/")
+        val toolCp = rootProject.configurations.detachedConfiguration(
+            // Doesn't want to work if I add it to libs.versions.toml, so I'll do it like this
+            rootProject.dependencies.create("xyz.wagyourtail.unimined:source-remap:1.0.5-SNAPSHOT:all")
+        )
+        val mixinCp = rootProject.configurations.detachedConfiguration(
+            libs.mixin.get()
+        )
+
+        classpath = toolCp
+        mainClass.set("com.replaymod.gradle.remap.MainKt")
+
+        doFirst {
+            if (!mappingsFile.exists() || mapsTxt.lastModified() > mappingsFile.lastModified()) {
+                MappingsGenerator.generateMappings(mapsTxt.toPath(), mappingsFile.toPath())
+            }
+            val mcJar = rootProject.resolveMcClientJar("26.2")
+            val fullClasspath = (listOf(mcJar) + mixinCp.files)
+                .distinct()
+                .joinToString(File.pathSeparator) { it.absolutePath }
+            args = listOf(
+                "-cp", fullClasspath,
+                "-m", mappingsFile.absolutePath,
+                "-r", inputDir.absolutePath, outputDir.absolutePath,
+                "-t", targetNamespace,
+            )
+        }
+        inputs.dir(inputDir)
+        inputs.file(mapsTxt)
+        outputs.dir(outputDir)
+    }
 }

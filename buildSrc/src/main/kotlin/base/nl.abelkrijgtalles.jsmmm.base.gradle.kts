@@ -12,7 +12,7 @@ group = rootProject.property("maven_group") as String
 version = rootProject.property("mod_version") as String
 
 if (namespace != "official") {
-    val remapCommon = registerSourceRemapTask(
+    val remapCommon = getOrRegisterSourceRemapTask(
         inputDir = rootProject.file("common/src/client/java"),
         targetNamespace = namespace
     )
