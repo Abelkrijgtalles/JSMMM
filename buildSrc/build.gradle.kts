@@ -7,7 +7,6 @@ repositories {
     maven("https://maven.neoforged.net/releases") { name = "NeoForge" }
     maven("https://maven.ornithemc.net/releases") { name = "Ornithe Releases" }
     maven("https://maven.ornithemc.net/snapshots") { name = "Ornithe Snapshots" }
-    maven("https://maven.wagyourtail.xyz/snapshots/") { name = "WagYourMaven" }
     mavenCentral()
     gradlePluginPortal()
 }
@@ -19,5 +18,4 @@ dependencies {
     implementation(libs.forge.gradle)
     implementation(libs.forge.renamer)
     implementation(libs.ploceus)
-    implementation(libs.mapping.io)
 }
