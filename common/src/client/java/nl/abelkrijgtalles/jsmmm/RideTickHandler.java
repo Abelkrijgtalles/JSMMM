@@ -10,18 +10,16 @@ public class RideTickHandler {
     public static void handleRideTick(LocalPlayer player, HandsBusySetter handsBusySetter) {
         if (!(player.getVehicle() instanceof Boat)) return;
 
-        InteractionHand hand = player.getUsedItemHand();
+        for (InteractionHand hand : InteractionHand.values()) {
+            ItemStack itemStack = player.getItemInHand(hand);
 
-        //noinspection ConstantValue - In earlier versions, this wasn't constant
-        if (hand == null) {
-            hand = InteractionHand.MAIN_HAND;
-        }
+            //noinspection ConstantValue - In earlier versions, this wasn't constant
+            if (itemStack == null) continue;
 
-        ItemStack itemStack = player.getItemInHand(hand);
-        //noinspection ConstantValue - In earlier versions, this wasn't constant
-        if (itemStack == null) return;
-        if (itemStack.getItem() instanceof MapItem) {
-            handsBusySetter.setHandsBusy(false);
+            if (itemStack.getItem() instanceof MapItem) {
+                handsBusySetter.setHandsBusy(false);
+                return;
+            }
         }
     }
 }

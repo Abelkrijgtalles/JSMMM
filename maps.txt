@@ -10,7 +10,6 @@ official:
         boolean net.minecraft.client.player.LocalPlayer#handsBusy
     methods:
         net.minecraft.world.entity.Entity net.minecraft.world.entity.Entity#getVehicle
-        net.minecraft.world.InteractionHand net.minecraft.client.player.LocalPlayer#getUsedItemHand
         net.minecraft.world.item.ItemStack net.minecraft.world.entity.LivingEntity#getItemInHand net.minecraft.world.InteractionHand
         void net.minecraft.client.player.LocalPlayer#rideTick
 official-legacy:
@@ -24,7 +23,6 @@ official-legacy:
         boolean net.minecraft.client.player.LocalPlayer#handsBusy
     methods:
         net.minecraft.world.entity.Entity#getVehicle
-        net.minecraft.client.player.LocalPlayer#getUsedItemHand
         net.minecraft.world.entity.LivingEntity#getItemInHand
         net.minecraft.client.player.LocalPlayer#rideTick
 feather:
@@ -38,7 +36,6 @@ feather:
         net.minecraft.client.entity.living.player.LocalClientPlayerEntity#rowing
     methods:
         net.minecraft.entity.Entity#getVehicle
-        net.minecraft.client.entity.living.player.LocalClientPlayerEntity#getHandInUse
         net.minecraft.entity.living.LivingEntity#getItemInHand
         net.minecraft.client.entity.living.player.LocalClientPlayerEntity#rideTick
 forge:
@@ -52,7 +49,6 @@ forge:
         net.minecraft.client.entity.player.ClientPlayerEntity#handsBusy
     methods:
         net.minecraft.entity.Entity#getVehicle
-        net.minecraft.client.entity.player.ClientPlayerEntity#getUsedItemHand
         net.minecraft.entity.LivingEntity#getItemInHand
         net.minecraft.client.entity.player.ClientPlayerEntity#rideTick
 forge-1.14.2:
@@ -66,7 +62,6 @@ forge-1.14.2:
         net.minecraft.client.entity.player.ClientPlayerEntity#handsBusy
     methods:
         net.minecraft.entity.Entity#getRidingEntity
-        net.minecraft.client.entity.player.ClientPlayerEntity#getActiveHand
         net.minecraft.entity.LivingEntity#getHeldItem
         net.minecraft.client.entity.player.ClientPlayerEntity#rideTick
 forge-legacy:
@@ -80,6 +75,5 @@ forge-legacy:
         net.minecraft.client.entity.EntityPlayerSP#rowingBoat
     methods:
         net.minecraft.entity.Entity#getRidingEntity
-        net.minecraft.client.entity.EntityPlayerSP#getActiveHand
         net.minecraft.entity.EntityLivingBase#getHeldItem
         net.minecraft.client.entity.EntityPlayerSP#updateRidden
