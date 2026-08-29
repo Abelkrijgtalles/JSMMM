@@ -75,6 +75,8 @@ fun Project.getOrRegisterSourceRemapTask(
     }
 
     return rootProject.tasks.register<JavaExec>(taskName) {
+        group = "jsmmm"
+        description = "Remap the sourceSet to $targetNamespace."
         val mapsTxt: File = rootProject.file("maps.txt")
         val mappingsFile: File = rootProject.layout.buildDirectory.file("maps.tiny").get().asFile
         val outputDir: File = rootProject.layout.buildDirectory.dir("generated/$targetNamespace").get().asFile
