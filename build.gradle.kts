@@ -16,6 +16,7 @@ val mod_version: String by project
 
 fun Project.releaseGithub(jars: List<File>) {
     val githubReleaseDir = project.layout.buildDirectory.dir("release").get().dir("github")
+    githubReleaseDir.asFile.deleteRecursively()
     githubReleaseDir.asFile.mkdirs()
     println("Moving all jars to ${githubReleaseDir.asFile.absolutePath}.")
 
@@ -27,43 +28,62 @@ fun Project.releaseGithub(jars: List<File>) {
 
         val loaderDir = githubReleaseDir.dir(jar.name.split("-")[2]).asFile
         loaderDir.mkdirs()
-        copiedJar.copyTo(loaderDir.resolve(jar.name), true)
-        signature.copyTo(loaderDir.resolve(signature.name), true)
+        val loaderCopiedJar = copiedJar.copyTo(loaderDir.resolve(jar.name), true)
+        val loaderSignature = signature.copyTo(loaderDir.resolve(signature.name), true)
 
-        filesToZip += copiedJar
-        filesToZip += signature
+        filesToZip += loaderCopiedJar
+        filesToZip += loaderSignature
     }
+
+    val globalVersionFile = githubReleaseDir.file("versions.txt").asFile
+
+    for (loader in githubReleaseDir.asFile.listFiles()!!.filter { it.isDirectory }.sortedBy { it.name }) {
+        val loaderZipFile = githubReleaseDir.asFile.resolve("$name-$mod_version-${loader.name}.zip")
+        val versionFile = loader.resolve("versions.txt")
+
+        ZipOutputStream(BufferedOutputStream(FileOutputStream(loaderZipFile))).use { zos ->
+            zos.setLevel(Deflater.BEST_COMPRESSION)
+            for (file in loader.listFiles()!!.sortedBy { it.name }) {
+                addToZip(file, loader, zos)
+                if (file.extension == "jar") {
+                    versionFile.appendText("${file.name}: ${project(":loaders:${loader.name}:${file.name.replace("$name-$mod_version-${loader.name}-", "").replace(".jar", "")}").property("versionRange")}\n")
+                }
+            }
+
+            val signature = signing.sign(versionFile).signatureFiles.first()
+            addToZip(versionFile, loader, zos)
+            addToZip(signature, loader, zos)
+        }
+        signing.sign(loaderZipFile)
+
+        globalVersionFile.appendText(versionFile.readText(Charsets.UTF_8))
+    }
+
+    filesToZip += globalVersionFile
+    filesToZip += signing.sign(globalVersionFile).signatureFiles.first()
 
     val zipFile = githubReleaseDir.asFile.resolve("$name-$mod_version.zip")
     ZipOutputStream(BufferedOutputStream(FileOutputStream(zipFile))).use { zos ->
         zos.setLevel(Deflater.BEST_COMPRESSION)
         for (file in filesToZip) {
-            val relativePath = file.relativeTo(githubReleaseDir.asFile).path
-            zos.putNextEntry(ZipEntry(relativePath))
-            file.inputStream().use { it.copyTo(zos) }
-            zos.closeEntry()
+            addToZip(file, githubReleaseDir.asFile, zos)
         }
     }
     // let's sign the zipfiles 'cuz why not
     signing.sign(zipFile)
 
-    for (loader in githubReleaseDir.asFile.listFiles()!!.filter { it.isDirectory }) {
-        val loaderZipFile = githubReleaseDir.asFile.resolve("$name-$mod_version-${loader.name}.zip")
-        ZipOutputStream(BufferedOutputStream(FileOutputStream(loaderZipFile))).use { zos ->
-            zos.setLevel(Deflater.BEST_COMPRESSION)
-            for (file in loader.listFiles()!!.sortedBy { it.name }) {
-                val relativePath = file.relativeTo(loader).path
-                zos.putNextEntry(ZipEntry(relativePath))
-                file.inputStream().use { it.copyTo(zos) }
-                zos.closeEntry()
-            }
-        }
-        signing.sign(loaderZipFile)
-    }
+    githubReleaseDir.asFile.listFiles()!!.filter { it.isDirectory }.forEach { it.deleteRecursively() }
+}
+
+fun addToZip(file: File, relativeFile: File, zos: ZipOutputStream) {
+    val relativePath = file.relativeTo(relativeFile).path
+    zos.putNextEntry(ZipEntry(relativePath))
+    file.inputStream().use { it.copyTo(zos) }
+    zos.closeEntry()
 }
 
 tasks.register("release") {
-    description = "Does all the things needed for a release. This is an interactive task"
+    description = "Does all the things needed for a release. This is an interactive task."
     group = "jsmmm"
 
     // I'm under the assumption every project has at least a dot in it
