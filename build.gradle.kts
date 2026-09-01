@@ -6,6 +6,7 @@ import java.util.zip.ZipOutputStream
 
 plugins {
     id("signing")
+    alias(libs.plugins.outlet)
 }
 
 signing {
@@ -85,6 +86,8 @@ fun Project.releaseGithub(jars: List<File>) {
         val loader = getLoaderFromJarName(jar.name)
         val mcVersion = getVersionFromJarName(jar.name)
 
+        outlet.mcVersionRange = getVersionRangeFabricFromJarName(jar.name)
+
         uploadModrinthVersion(
             projectId = "gblzqx92",
             token = (System.getenv("MODRINTH_TOKEN") ?: project.findProperty("MODRINTH_TOKEN")) as String,
@@ -92,7 +95,7 @@ fun Project.releaseGithub(jars: List<File>) {
             additionalFiles = mapOf(jarWithSignature[jar]!! to "signature"),
             versionNumber = "$mod_version-${loader}-${mcVersion}",
             versionName = "JUST SHOW ME MY MAP! version $mod_version",
-            gameVersions = listOf("26.2"), // TODO: CHANGE THIS
+            gameVersions = outlet.mcVersions().map { fixPreReleaseText(it) }.toList(), // TODO: CHANGE THIS
             loaders = listOf(loader), // TODO: CHANGE THIS ALSO FOR SOME MODLOADERS
             changelog = "Supported versions: ${getVersionRangeFromJarName(jar.name)}\n\n" + rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
         )
@@ -114,8 +117,27 @@ fun getVersionFromJarName(name: String): String {
     return name.replace("${project.name}-$mod_version-${getLoaderFromJarName(name)}-", "").replace(".jar", "")
 }
 
+fun getProjectFromJarName(name: String): Project {
+    return project(":loaders:${getLoaderFromJarName(name)}:${getVersionFromJarName(name)}")
+}
+
 fun getVersionRangeFromJarName(name: String): String {
-    return project(":loaders:${getLoaderFromJarName(name)}:${getVersionFromJarName(name)}").property("versionRange")!! as String
+    return getProjectFromJarName(name).property("versionRange")!! as String
+}
+
+fun getVersionRangeFabricFromJarName(name: String): String {
+    return if (getLoaderFromJarName(name) == "fabric" || getLoaderFromJarName(name) == "ornithe") {
+        getProjectFromJarName(name).property("supportedMcVersions")!! as String
+    } else if (getLoaderFromJarName(name) == "liteloader") {
+        getProjectFromJarName(name).property("versionRange")!! as String
+    } else {
+        getProjectFromJarName(name).property("versionRangeFabric")!! as String
+    }
+}
+
+fun fixPreReleaseText(version: String): String = version.replace(Regex("""(\d+\.\d+(?:\.\d+)?)\s+Pre-Release\s+(\d+)""", RegexOption.IGNORE_CASE)) {
+    val (base, num) = it.destructured
+    "$base-pre$num"
 }
 
 tasks.register("release") {

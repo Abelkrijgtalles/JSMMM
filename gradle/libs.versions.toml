@@ -12,3 +12,6 @@ mixin = { group = "org.spongepowered", name = "mixin", version = "0.8.7" }
 forge-gradle = { group = "net.minecraftforge.gradle", name = "net.minecraftforge.gradle.gradle.plugin", version = "7.0.31" }
 forge-renamer = { group = "net.minecraftforge.renamer", name = "net.minecraftforge.renamer.gradle.plugin", version = "1.1.7" }
 mapping-io = { group = "net.fabricmc", name = "mapping-io", version = "0.9.1" }
+
+[plugins]
+outlet = { id = "io.github.dexman545.outlet", version = "1.8.0" }
