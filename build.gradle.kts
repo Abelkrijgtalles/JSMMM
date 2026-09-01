@@ -21,18 +21,21 @@ fun Project.releaseGithub(jars: List<File>) {
     println("Moving all jars to ${githubReleaseDir.asFile.absolutePath}.")
 
     val filesToZip = mutableListOf<File>()
+    val jarWithSignature = mutableMapOf<File, File>()
 
     for (jar in jars) {
         val copiedJar = jar.copyTo(githubReleaseDir.asFile.resolve(jar.name), true)
         val signature = signing.sign(copiedJar).signatureFiles.first()
 
-        val loaderDir = githubReleaseDir.dir(jar.name.split("-")[2]).asFile
+        val loaderDir = githubReleaseDir.dir(getLoaderFromJarName(jar.name)).asFile
         loaderDir.mkdirs()
         val loaderCopiedJar = copiedJar.copyTo(loaderDir.resolve(jar.name), true)
         val loaderSignature = signature.copyTo(loaderDir.resolve(signature.name), true)
 
         filesToZip += loaderCopiedJar
         filesToZip += loaderSignature
+
+        jarWithSignature[loaderCopiedJar] = loaderSignature
     }
 
     val globalVersionFile = githubReleaseDir.file("versions.txt").asFile
@@ -46,7 +49,7 @@ fun Project.releaseGithub(jars: List<File>) {
             for (file in loader.listFiles()!!.sortedBy { it.name }) {
                 addToZip(file, loader, zos)
                 if (file.extension == "jar") {
-                    versionFile.appendText("${file.name}: ${project(":loaders:${loader.name}:${file.name.replace("$name-$mod_version-${loader.name}-", "").replace(".jar", "")}").property("versionRange")}\n")
+                    versionFile.appendText("${file.name}: ${getVersionRangeFromJarName(file.name)}\n")
                 }
             }
 
@@ -70,9 +73,30 @@ fun Project.releaseGithub(jars: List<File>) {
         }
     }
     // let's sign the zipfiles 'cuz why not
-    signing.sign(zipFile)
+    val zipFileSignature = signing.sign(zipFile)
 
-    githubReleaseDir.asFile.listFiles()!!.filter { it.isDirectory }.forEach { it.deleteRecursively() }
+//    githubReleaseDir.asFile.listFiles()!!.filter { it.isDirectory }.forEach { it.deleteRecursively() }
+
+    println("Press enter when you've edited CHANGELOG.md")
+
+    readln()
+
+    for (jar in jarWithSignature.keys) {
+        val loader = getLoaderFromJarName(jar.name)
+        val mcVersion = getVersionFromJarName(jar.name)
+
+        uploadModrinthVersion(
+            projectId = "gblzqx92",
+            token = (System.getenv("MODRINTH_TOKEN") ?: project.findProperty("MODRINTH_TOKEN")) as String,
+            primaryFile = jar,
+            additionalFiles = mapOf(jarWithSignature[jar]!! to "signature"),
+            versionNumber = "$mod_version-${loader}-${mcVersion}",
+            versionName = "JUST SHOW ME MY MAP! version $mod_version",
+            gameVersions = listOf("26.2"), // TODO: CHANGE THIS
+            loaders = listOf(loader), // TODO: CHANGE THIS ALSO FOR SOME MODLOADERS
+            changelog = "Supported versions: ${getVersionRangeFromJarName(jar.name)}\n\n" + rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
+        )
+    }
 }
 
 fun addToZip(file: File, relativeFile: File, zos: ZipOutputStream) {
@@ -80,6 +104,18 @@ fun addToZip(file: File, relativeFile: File, zos: ZipOutputStream) {
     zos.putNextEntry(ZipEntry(relativePath))
     file.inputStream().use { it.copyTo(zos) }
     zos.closeEntry()
+}
+
+fun getLoaderFromJarName(name: String): String {
+    return name.split("-")[2]
+}
+
+fun getVersionFromJarName(name: String): String {
+    return name.replace("${project.name}-$mod_version-${getLoaderFromJarName(name)}-", "").replace(".jar", "")
+}
+
+fun getVersionRangeFromJarName(name: String): String {
+    return project(":loaders:${getLoaderFromJarName(name)}:${getVersionFromJarName(name)}").property("versionRange")!! as String
 }
 
 tasks.register("release") {
