@@ -95,8 +95,8 @@ fun Project.releaseGithub(jars: List<File>) {
             additionalFiles = mapOf(jarWithSignature[jar]!! to "signature"),
             versionNumber = "$mod_version-${loader}-${mcVersion}",
             versionName = "JUST SHOW ME MY MAP! version $mod_version",
-            gameVersions = outlet.mcVersions().map { fixPreReleaseText(it) }.toList(), // TODO: CHANGE THIS
-            loaders = listOf(loader), // TODO: CHANGE THIS ALSO FOR SOME MODLOADERS
+            gameVersions = outlet.mcVersions().map { fixPreReleaseText(it) }.toList(),
+            loaders = getLoadersFromLoader(loader).toList(),
             changelog = "Supported versions: ${getVersionRangeFromJarName(jar.name)}\n\n" + rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
         )
     }
@@ -138,6 +138,16 @@ fun getVersionRangeFabricFromJarName(name: String): String {
 fun fixPreReleaseText(version: String): String = version.replace(Regex("""(\d+\.\d+(?:\.\d+)?)\s+Pre-Release\s+(\d+)""", RegexOption.IGNORE_CASE)) {
     val (base, num) = it.destructured
     "$base-pre$num"
+}.let { if (it == "3D Shareware v1.34") "3D-Shareware-v1.34" else it }
+
+fun getLoadersFromLoader(loader: String): Set<String> {
+    return if (loader == "fabric") {
+        setOf("fabric", "quilt")
+    } else if (loader == "ornithe") {
+        setOf("ornithe", "legacy-fabric")
+    } else {
+        setOf(loader)
+    }
 }
 
 tasks.register("release") {
