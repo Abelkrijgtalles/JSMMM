@@ -97,7 +97,8 @@ fun Project.releaseGithub(jars: List<File>) {
             versionName = "JUST SHOW ME MY MAP! version $mod_version",
             gameVersions = outlet.mcVersions().map { fixPreReleaseText(it) }.toList(),
             loaders = getLoadersFromLoader(loader).toList(),
-            changelog = "Supported versions: ${getVersionRangeFromJarName(jar.name)}\n\n" + rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8)
+            changelog = "Supported versions: ${getVersionRangeFromJarName(jar.name)}\n\n" + rootProject.file("CHANGELOG.md").readText(Charsets.UTF_8),
+            environment = "client_only"
         )
     }
 }

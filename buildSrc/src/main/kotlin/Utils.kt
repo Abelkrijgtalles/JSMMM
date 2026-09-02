@@ -23,6 +23,7 @@ fun uploadModrinthVersion(
     gameVersions: List<String>,
     loaders: List<String>,
     versionType: String = "release",
+    environment: String,
 ) {
     val boundary = "----ModrinthUpload${UUID.randomUUID()}"
 
@@ -47,7 +48,8 @@ fun uploadModrinthVersion(
           "project_id" to projectId,
           "file_parts" to fileParts,
           "primary_file" to "primary",
-          "file_types" to additionalFiles.values.mapIndexed { i, type -> "extra$i" to type }.toMap()
+          "file_types" to additionalFiles.values.mapIndexed { i, type -> "extra$i" to type }.toMap(),
+          "environment" to environment,
     ))
 
     val body = ByteArrayOutputStream()
