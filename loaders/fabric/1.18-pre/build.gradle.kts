@@ -1,1 +1,0 @@
-plugins { id("nl.abelkrijgtalles.jsmmm.fabric.obfuscated") }
