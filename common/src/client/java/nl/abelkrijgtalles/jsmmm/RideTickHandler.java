@@ -8,7 +8,7 @@ import net.minecraft.world.item.MapItem;
 
 public class RideTickHandler {
     public static void handleRideTick(LocalPlayer player, HandsBusySetter handsBusySetter) {
-        if (!(player.getVehicle() instanceof Boat)) return;
+        if (player == null || !(player.getVehicle() instanceof Boat)) return;
 
         for (InteractionHand hand : InteractionHand.values()) {
             ItemStack itemStack = player.getItemInHand(hand);
