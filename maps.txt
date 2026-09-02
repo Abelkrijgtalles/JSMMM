@@ -6,7 +6,6 @@ official:
         import net.minecraft.world.item.MapItem;
         import net.minecraft.world.entity.vehicle.boat.Boat;
         import net.minecraft.world.item.ItemStack;
-        import net.minecraft.world.entity.Entity;
     fields:
         boolean net.minecraft.client.player.LocalPlayer#handsBusy
     methods:
@@ -20,7 +19,6 @@ official-legacy:
         import net.minecraft.world.item.MapItem;
         import net.minecraft.world.entity.vehicle.Boat;
         import net.minecraft.world.item.ItemStack;
-        import net.minecraft.world.entity.Entity;
     fields:
         boolean net.minecraft.client.player.LocalPlayer#handsBusy
     methods:
@@ -34,7 +32,6 @@ feather:
         import net.minecraft.item.FilledMapItem;
         import net.minecraft.entity.vehicle.BoatEntity;
         import net.minecraft.item.ItemStack;
-        import net.minecraft.entity.Entity;
     fields:
         net.minecraft.client.entity.living.player.LocalClientPlayerEntity#rowing
     methods:
@@ -48,7 +45,6 @@ forge:
         import net.minecraft.item.FilledMapItem;
         import net.minecraft.entity.item.BoatEntity;
         import net.minecraft.item.ItemStack;
-        import net.minecraft.entity.Entity;
     fields:
         net.minecraft.client.entity.player.ClientPlayerEntity#handsBusy
     methods:
@@ -62,7 +58,6 @@ forge-1.14.2:
         import net.minecraft.item.FilledMapItem;
         import net.minecraft.entity.item.BoatEntity;
         import net.minecraft.item.ItemStack;
-        import net.minecraft.entity.Entity;
     fields:
         net.minecraft.client.entity.player.ClientPlayerEntity#handsBusy
     methods:
@@ -76,7 +71,6 @@ forge-legacy:
         import net.minecraft.item.ItemMap;
         import net.minecraft.entity.item.EntityBoat;
         import net.minecraft.item.ItemStack;
-        import net.minecraft.entity.Entity;
     fields:
         net.minecraft.client.entity.EntityPlayerSP#rowingBoat
     methods:
