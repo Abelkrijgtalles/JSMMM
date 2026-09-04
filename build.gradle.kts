@@ -89,7 +89,7 @@ fun Project.releaseGithub(jars: List<File>) {
         outlet.mcVersionRange = getVersionRangeFabricFromJarName(jar.name)
 
         uploadModrinthVersion(
-            projectId = "gblzqx92",
+            projectId = "GnnoFqeZ",
             token = (System.getenv("MODRINTH_TOKEN") ?: project.findProperty("MODRINTH_TOKEN")) as String,
             primaryFile = jar,
             additionalFiles = mapOf(jarWithSignature[jar]!! to "signature"),
