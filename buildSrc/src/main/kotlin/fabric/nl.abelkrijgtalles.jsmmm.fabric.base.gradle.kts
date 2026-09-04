@@ -32,7 +32,7 @@ tasks.register("generateModJson", FabricModJsonV1Task::class)  {
             contactInformation.put("modrinth", "https://modrinth.com/user/Abelpro678")
         }
         // Add contributors once I have them
-        licenses.add("GPL-3.0-or-later")
+        licenses.add("LGPL-3.0-or-later")
         icon("assets/jsmmm/icon.png")
         environment = "client"
         mixin("jsmmm.client.mixins.json") {
