@@ -10,16 +10,6 @@ val neoForgeVersion: String by project
 
 tasks.withType<ProcessResources>().configureEach {
     dependsOn(tasks.compileJava)
-    val replaceProperties = mapOf(
-        "mod_version" to version,
-        "java_version" to javaVersion,
-        "supported_neo_versions" to supportedNeoForgeVersions,
-    )
-    inputs.properties(replaceProperties)
-    from(parent!!.file("src/main/templates")) {
-        expand(replaceProperties)
-    }
-    into("build/generated/sources/modMetadata")
 }
 
 sourceSets["main"].resources.srcDirs(

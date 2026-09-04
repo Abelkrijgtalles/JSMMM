@@ -13,7 +13,6 @@ tasks.withType<ProcessResources>().configureEach {
     )
     from(parent!!.file("src/main/templates")) {
         expand(replaceProperties)
-        rename("neoforge\\.mods\\.toml", "mods.toml")
     }
     into("build/generated/sources/modMetadata")
 }
