@@ -22,7 +22,7 @@ import nl.abelkrijgtalles.jsmmm.RideTickHandler;
 public class HandsBusyHandler {
 
     @SubscribeEvent
-    public static void onPlayerTick(TickEvent.ClientTickEvent event) {
+    public void onPlayerTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END) return;
         #if MC_1_14
         ClientPlayerEntity player = Minecraft.getInstance().player;

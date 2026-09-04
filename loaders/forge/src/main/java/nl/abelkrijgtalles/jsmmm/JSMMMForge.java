@@ -10,7 +10,7 @@ import nl.abelkrijgtalles.jsmmm.forge.HandsBusyHandler;
 public class JSMMMForge {
     public JSMMMForge() {
         #if NO_MIXIN
-        MinecraftForge.EVENT_BUS.register(HandsBusyHandler.class);
+        MinecraftForge.EVENT_BUS.register(new HandsBusyHandler());
         #endif
     }
 }
