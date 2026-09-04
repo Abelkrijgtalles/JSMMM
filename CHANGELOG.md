@@ -8,3 +8,5 @@
 - Add offhand support
 ### Miscellaneous
 - Switch to the GNU LGPLv3
+
+**Full Changelog**: https://github.com/Abelkrijgtalles/JSMMM/compare/1.0.0...1.1.0
