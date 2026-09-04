@@ -39,7 +39,9 @@ extensions.configure<JavaPluginExtension> {
 
 tasks.compileJava {
     options.compilerArgs.add("-Xplugin:Manifold")
-    options.compilerArgs.addAll(symbol.split(" ").map { "-A$it" })
+    if (symbol.trim().isNotEmpty()) {
+        options.compilerArgs.addAll(symbol.split(" ").map { "-A$it" })
+    }
 }
 
 tasks.named<Jar>("jar") {
