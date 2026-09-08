@@ -20,12 +20,27 @@ public abstract class ItemInHandRendererMixin {
     @Shadow
     private float mainHandHeight;
 
+    @Shadow
+    private ItemStack offHandItem;
+
+    @Shadow
+    private float offHandHeight;
+
     @Redirect(method = "tick", at = @At(value = "FIELD", ordinal = 1, target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;mainHandHeight:F", opcode = Opcodes.PUTFIELD))
     private void overrideMainHandHeight(ItemInHandRenderer instance, float mainHandHeight) {
         if (RideTickHandler.isActuallyBusy() && !(this.mainHandItem.getItem() instanceof MapItem)) {
             this.mainHandHeight = Mth.clamp(this.mainHandHeight - 0.4F, 0.0F, 1.0F);
         } else {
             this.mainHandHeight = mainHandHeight;
+        }
+    }
+
+    @Redirect(method = "tick", at = @At(value = "FIELD", ordinal = 1, target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;offHandHeight:F", opcode = Opcodes.PUTFIELD))
+    private void overrideOffHandHeight(ItemInHandRenderer instance, float offHandHeight) {
+        if (RideTickHandler.isActuallyBusy() && !(this.offHandItem.getItem() instanceof MapItem)) {
+            this.offHandHeight = Mth.clamp(this.offHandHeight - 0.4F, 0.0F, 1.0F);
+        } else {
+            this.offHandHeight = offHandHeight;
         }
     }
 
