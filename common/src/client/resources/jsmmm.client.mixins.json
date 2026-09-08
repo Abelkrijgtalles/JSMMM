@@ -3,7 +3,8 @@
 	"package": "nl.abelkrijgtalles.jsmmm.mixin",
 	"compatibilityLevel": "${mixinCompatibilityLevel}",
 	"client": [
-		"LocalPlayerMixin"
+		"LocalPlayerMixin",
+		"MinecraftMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
