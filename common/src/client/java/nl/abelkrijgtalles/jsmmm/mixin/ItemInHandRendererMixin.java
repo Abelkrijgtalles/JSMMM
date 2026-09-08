@@ -1,3 +1,4 @@
+#if !NO_MIXIN
 package nl.abelkrijgtalles.jsmmm.mixin;
 
 import net.minecraft.client.renderer.ItemInHandRenderer;
@@ -45,3 +46,4 @@ public abstract class ItemInHandRendererMixin {
     }
 
 }
+#endif
