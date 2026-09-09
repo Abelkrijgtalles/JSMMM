@@ -1,4 +1,4 @@
-official,official-legacy,feather,forge,forge-1.14.2,forge-legacy
+official,feather,forge,forge-1.14.2,forge-legacy
 official:
     classes:
         import net.minecraft.client.player.LocalPlayer;
