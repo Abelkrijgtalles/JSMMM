@@ -73,7 +73,7 @@ forge-1.14.2:
         net.minecraft.entity.Entity#getRidingEntity
         net.minecraft.entity.LivingEntity#getHeldItem
         net.minecraft.client.entity.player.ClientPlayerEntity#rideTick
-        net.minecraft.client.player.LocalPlayer#isHandsBusy
+        net.minecraft.client.entity.player.ClientPlayerEntity#isRowingBoat
 forge-legacy:
     classes:
         import net.minecraft.client.entity.EntityPlayerSP;
