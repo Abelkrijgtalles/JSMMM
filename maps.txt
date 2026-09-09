@@ -14,21 +14,6 @@ official:
         net.minecraft.world.item.ItemStack net.minecraft.world.entity.LivingEntity#getItemInHand net.minecraft.world.InteractionHand
         void net.minecraft.client.player.LocalPlayer#rideTick
         boolean net.minecraft.client.player.LocalPlayer#isHandsBusy
-official-legacy:
-    classes:
-        import net.minecraft.client.player.LocalPlayer;
-        import net.minecraft.world.InteractionHand;
-        import net.minecraft.world.item.MapItem;
-        import net.minecraft.world.item.ItemStack;
-        import net.minecraft.client.renderer.ItemInHandRenderer;
-        import net.minecraft.util.Mth;
-    fields:
-        boolean net.minecraft.client.player.LocalPlayer#handsBusy
-    methods:
-        net.minecraft.world.entity.Entity#getVehicle
-        net.minecraft.world.entity.LivingEntity#getItemInHand
-        net.minecraft.client.player.LocalPlayer#rideTick
-        net.minecraft.client.player.LocalPlayer#isHandsBusy
 feather:
     classes:
         import net.minecraft.client.entity.living.player.LocalClientPlayerEntity;
