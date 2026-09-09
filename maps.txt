@@ -20,15 +20,15 @@ feather:
         import net.minecraft.world.InteractionHand;
         import net.minecraft.item.FilledMapItem;
         import net.minecraft.item.ItemStack;
-        import net.minecraft.client.renderer.ItemInHandRenderer;
-        import net.minecraft.util.Mth;
+        import net.minecraft.client.render.ItemInHandRenderer;
+        import net.minecraft.util.math.MathHelper;
     fields:
         net.minecraft.client.entity.living.player.LocalClientPlayerEntity#rowing
     methods:
         net.minecraft.entity.Entity#getVehicle
         net.minecraft.entity.living.LivingEntity#getItemInHand
         net.minecraft.client.entity.living.player.LocalClientPlayerEntity#rideTick
-        net.minecraft.client.player.LocalPlayer#isHandsBusy
+        net.minecraft.client.entity.living.player.LocalClientPlayerEntity#isRowing
 forge:
     classes:
         import net.minecraft.client.entity.player.ClientPlayerEntity;
